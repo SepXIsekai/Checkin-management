@@ -18,6 +18,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV["POSTGRESQL_HOST"] || Rails.application.credentials.dig(:database, :host) %>
+  port: <%= ENV["POSTGRESQL_PORT"] || Rails.application.credentials.dig(:database, :port) %>
+  username: <%= ENV["POSTGRESQL_USERNAME"] || Rails.application.credentials.dig(:database, :username) %>
+  password: <%= ENV["POSTGRESQL_PASSWORD"] || Rails.application.credentials.dig(:database, :password) %>
 
 
 development:
