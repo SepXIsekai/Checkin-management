@@ -1,0 +1,45 @@
+<!-- app/views/devise/registrations/new.html.erb -->
+<h2>สมัครสมาชิก</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { controller: "registration" } }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <p><%= f.label :role, "ประเภท" %></p>
+    <p><%= f.select :role, [['นักเรียน', 'student'], ['อาจารย์', 'teacher']], {}, { data: { action: "change->registration#toggle" } } %></p>
+  </div>
+
+  <div class="field" data-registration-target="secretCode" style="display: none;">
+    <p><%= f.label :secret_code, "รหัสอาจารย์" %></p>
+    <p><%= f.text_field :secret_code %></p>
+  </div>
+
+  <div class="field">
+    <p><%= f.label :name, "ชื่อ" %></p>
+    <p><%= f.text_field :name %></p>
+  </div>
+
+  <div class="field" data-registration-target="studentId">
+    <p><%= f.label :student_id, "รหัสนักเรียน" %></p>
+    <p><%= f.text_field :student_id %></p>
+  </div>
+
+  <div class="field">
+    <p><%= f.label :email %></p>
+    <p><%= f.email_field :email %></p>
+  </div>
+
+  <div class="field">
+    <p><%= f.label :password %></p>
+    <p><%= f.password_field :password %></p>
+  </div>
+
+  <div class="field">
+    <p><%= f.label :password_confirmation %></p>
+    <p><%= f.password_field :password_confirmation %></p>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "สมัคร" %>
+  </div>
+<% end %>
