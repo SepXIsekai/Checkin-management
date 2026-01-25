@@ -1,0 +1,12 @@
+<!-- app/views/pages/home.html.erb -->
+<h1>ระบบเช็คชื่อ</h1>
+
+<% if user_signed_in? %>
+  <p>สวัสดี <%= current_user.name %> (<%= current_user.role %>)</p>
+  <%= button_to "ออกจากระบบ", destroy_user_session_path, method: :delete %>
+<% else %>
+  <p>
+    <%= link_to "เข้าสู่ระบบ", new_user_session_path %> |
+    <%= link_to "สมัครสมาชิก", new_user_registration_path %>
+  </p>
+<% end %>
