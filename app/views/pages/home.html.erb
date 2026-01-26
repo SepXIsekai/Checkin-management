@@ -1,12 +1,78 @@
 <!-- app/views/pages/home.html.erb -->
-<h1>ระบบเช็คชื่อ</h1>
-
-<% if user_signed_in? %>
-  <p>สวัสดี <%= current_user.name %> (<%= current_user.role %>)</p>
-  <%= button_to "ออกจากระบบ", destroy_user_session_path, method: :delete %>
-<% else %>
-  <p>
-    <%= link_to "เข้าสู่ระบบ", new_user_session_path %> |
-    <%= link_to "สมัครสมาชิก", new_user_registration_path %>
-  </p>
-<% end %>
+<div class="w-full flex flex-col gap-6">
+  <div class="flex flex-col items-center justify-center pt-8 sm:pt-10 md:pt-14 lg:pt-16">
+    <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900 dark:text-white">
+      University Portal
+    </h1>
+    <p class="mt-2 sm:mt-3 text-slate-500 text-center text-sm sm:text-base md:text-base">
+      Select your entry point to continue
+    </p>
+  </div>
+  <% if user_signed_in? %>
+    <div>
+      <p>สวัสดี <%= current_user.name %> (<%= current_user.role %>)</p>
+      <%= button_to "ออกจากระบบ", destroy_user_session_path, method: :delete %>
+    </div>
+  <% else %>
+    <div class="mx-auto max-w-2xl lg:max-w-3xl px-2 flex flex-col gap-4">
+      <%= link_to new_user_session_path, class: "group w-full bg-[#261ce6] hover:bg-[#1a14a3] text-white p-5 sm:p-6 rounded-2xl transition-all shadow-lg flex items-center gap-4 text-left active:scale-[0.98] border border-transparent cursor-pointer" do %>
+        <div class="bg-white/10 p-3 rounded-xl shrink-0">
+          <%= image_tag "login-page/education-school.svg",
+            class: "w-7 h-7 sm:w-8 sm:h-8"
+          %>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-base sm:text-lg font-bold">
+            Teacher Portal Login
+          </span>
+          <span class="text-xs sm:text-sm text-white/80 font-normal">
+            Access Back-office &amp; Grades
+          </span>
+        </div>
+        <span class="ml-auto group-hover:translate-x-1 transition-transform shrink-0">
+          <%= image_tag "login-page/chevron-right-white.svg",
+            class: "w-6 h-6 sm:w-8 sm:h-8"
+          %>
+        </span>
+      <% end %>
+      <%= link_to new_user_session_path, class: "group w-full bg-white border-2 border-[#261ce6] text-[#261ce6] p-5 sm:p-6 rounded-2xl transition-allshadow-md flex items-center  gap-4 text-left active:scale-[0.98] cursor-pointer" do %>
+        <div class="bg-[#261ce6]/5 p-3 rounded-xl shrink-0">
+          <%= image_tag "login-page/qr-code-scan.svg",
+            class: "w-7 h-7 sm:w-8 sm:h-8"
+          %>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-base sm:text-lg font-bold">
+            Student Check-in Login
+          </span>
+          <span class="text-xs sm:text-sm text-slate-500 font-normal">
+            Attendance &amp; Quick Check-in
+          </span>
+        </div>
+        <span class="ml-auto group-hover:translate-x-1 transition-transform shrink-0">
+          <%= image_tag "login-page/chevron-right-blue.svg",
+            class: "w-6 h-6 sm:w-8 sm:h-8"
+          %>
+        </span>
+      <% end %>
+    </div>
+    <div class="mt-auto pt-10 md:pt-14 text-center px-4 md:px-0">
+      <p class="text-slate-500 text-xs sm:text-sm md:text-base font-normal mb-3 md:mb-4">
+        Don't have an account? Register as:
+      </p>
+      <div class="flex items-center justify-center gap-4 md:gap-6">
+        <%= link_to new_user_registration_path, class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+          Student
+        <% end %>
+        <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-300"></span>
+        <%= link_to new_user_registration_path, class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+          Teacher
+        <% end %>
+      </div>
+      <div class="h-12 md:h-20"></div>
+      <p class="text-slate-400 text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.25em] font-medium">
+        © Checkin Management System
+      </p>
+    </div>
+  <% end %>
+</div>
