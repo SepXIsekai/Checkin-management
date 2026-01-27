@@ -61,11 +61,11 @@
         Don't have an account? Register as:
       </p>
       <div class="flex items-center justify-center gap-4 md:gap-6">
-        <%= link_to new_user_registration_path, class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+        <%= link_to new_user_registration_path(role: 'student'), class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
           Student
         <% end %>
         <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-300"></span>
-        <%= link_to new_user_registration_path, class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+        <%= link_to new_user_registration_path(role: 'teacher'), class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
           Teacher
         <% end %>
       </div>
