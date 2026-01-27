@@ -1,48 +1,34 @@
 <!-- app/views/devise/registrations/new.html.erb -->
-<% role = resource.role || params[:role] || 'student' %>
-
-<h2>สมัคร<%= role == 'teacher' ? 'อาจารย์' : 'นักศึกษา' %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <%= f.hidden_field :role, value: role %>
-
-  <% if role == 'teacher' %>
-    <div class="field">
-      <p><%= f.label :secret_code, "รหัสอาจารย์" %></p>
-      <p><%= f.text_field :secret_code %></p>
+<div class="w-full flex flex-col gap-4">
+  <% role = resource.role || params[:role] || 'student' %>
+  <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900">
+    <%= role == 'teacher' ? 'Teacher' : 'Student' %> Registration
+  </h1>
+  <div class="pt-2 px-4">
+    <h3 class="text-[#111118] tracking-light text-2xl font-bold leading-tight text-center max-sm:text-base">Create <%= role == 'teacher' ? 'Teacher' : 'Student' %> Account</h3>
+    <p class="text-[#636388] text-base font-normal leading-normal pb-6 pt-2 px-4 text-center max-sm:text-xs">
+      <%= role == 'teacher' ? 'Join the Checkin Management System to manage your courses and students.' : 'Join the Form to Check-in your class' %>
+    </p>
+  </div>
+  <div class="w-full flex justify-center px-4">
+    <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white rounded-2xl shadow-lg sm:shadow-xl border border-slate-200 p-6 sm:p-8 md:p-10">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :role, value: role %>
+        <% if role == 'teacher' %>
+          <%= form_input(f, :secret_code, label: "Teacher Code", placeholder: "Secret Code for Teacher Only") %>
+        <% end %>
+        <%= form_input(f, :name, label: "Full Name", placeholder: "e.g. Dr. John Dee") %>
+        <% if role == 'student' %>
+          <%= form_input(f, :student_id, label: "Student ID", placeholder: "650710123") %>
+        <% end %>
+        <%= form_input(f, :email, label: "Email", type: :email, placeholder: "example@university.ac.th") %>
+        <%= form_input(f, :password, label: "Password", type: :password, placeholder: "••••••••") %>
+        <%= form_input(f, :password_confirmation, label: "Confirm Password", type: :password, placeholder: "••••••••") %>
+        <div class="pt-6">
+          <%= f.submit "Create Account", class: "w-full h-12 sm:h-14 rounded-xl bg-[#261ce6] text-white font-semibold text-sm sm:text-base hover:bg-[#1a14a3]/90 transition active:scale-[0.98] cursor-pointer" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <p><%= f.label :name, "ชื่อ" %></p>
-    <p><%= f.text_field :name %></p>
   </div>
-
-  <% if role == 'student' %>
-    <div class="field">
-      <p><%= f.label :student_id, "รหัสนักศึกษา" %></p>
-      <p><%= f.text_field :student_id %></p>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "สมัคร" %>
-  </div>
-<% end %>
+</div>
