@@ -1,7 +1,7 @@
 <!-- app/views/pages/home.html.erb -->
 <div class="w-full flex flex-col gap-6">
   <div class="flex flex-col items-center justify-center pt-8 sm:pt-10 md:pt-14 lg:pt-16">
-    <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900 dark:text-white">
+    <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900">
       University Portal
     </h1>
     <p class="mt-2 sm:mt-3 text-slate-500 text-center text-sm sm:text-base md:text-base">
@@ -61,11 +61,11 @@
         Don't have an account? Register as:
       </p>
       <div class="flex items-center justify-center gap-4 md:gap-6">
-        <%= link_to new_user_registration_path(role: 'student'), class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+        <%= link_to new_user_registration_path(role: 'student'), class: "text-[#261ce6] font-bold text-lg max-sm:text-sm hover:underline" do %>
           Student
         <% end %>
         <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-300"></span>
-        <%= link_to new_user_registration_path(role: 'teacher'), class: "text-primary font-bold text-xs sm:text-sm md:text-base hover:underline" do %>
+        <%= link_to new_user_registration_path(role: 'teacher'), class: "text-[#261ce6] font-bold text-lg max-sm:text-sm hover:underline" do %>
           Teacher
         <% end %>
       </div>
