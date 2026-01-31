@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :course_teachers, dependent: :destroy
+  has_many :teaching_courses, through: :course_teachers, source: :course
   enum :role, { student: 0, teacher: 1 }
 
   attr_accessor :secret_code
