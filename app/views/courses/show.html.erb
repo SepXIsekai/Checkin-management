@@ -1,15 +1,24 @@
-<% content_for :title, "Showing course" %>
-
-<div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <h1 class="font-bold text-4xl">Showing course</h1>
-
-  <%= render @course %>
-
-  <%= link_to "Edit this course", edit_course_path(@course), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to courses", courses_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= button_to "Destroy this course", @course, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+<!-- app/views/courses/show.html.erb -->
+<h1 class="text-2xl font-bold mb-4"><%= @course.code %> - <%= @course.name %></h1>
+<div class="bg-white rounded shadow p-6">
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <div>
+      <p class="text-slate-500">ปีการศึกษา</p>
+      <p class="font-semibold"><%= @course.year %></p>
+    </div>
+    <div>
+      <p class="text-slate-500">ภาคเรียน</p>
+      <p class="font-semibold"><%= @course.semester %></p>
+    </div>
+  </div>
+  <div class="mb-6">
+    <p class="text-slate-500 mb-2">อาจารย์ผู้สอน</p>
+    <% @course.teachers.each do |teacher| %>
+      <span class="inline-block bg-slate-200 rounded px-2 py-1 text-sm mr-2"><%= teacher.name %></span>
+    <% end %>
+  </div>
+  <div class="flex gap-2">
+    <%= link_to "แก้ไข", edit_course_path(@course), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <%= button_to "ลบ", @course, method: :delete, data: { turbo_confirm: "ยืนยันการลบ?" }, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" %>
+  </div>
 </div>

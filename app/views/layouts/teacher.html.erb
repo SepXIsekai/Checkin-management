@@ -1,0 +1,51 @@
+<!-- app/views/layouts/teacher.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teacher Portal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-800 text-white p-4">
+      <div class="mb-8">
+        <h1 class="text-xl font-bold">Teacher Portal</h1>
+        <p class="text-sm text-slate-400"><%= current_user.name %></p>
+      </div>
+      <nav>
+        <% if @course&.persisted? %>
+          <!-- อยู่ในหน้า Course (show, edit) -->
+          <%= link_to "← กลับไปรายวิชา", courses_path, class: "block py-2 px-2 rounded hover:bg-slate-700 mb-4" %>
+          <p class="text-xs text-slate-400 mb-2"><%= @course.code %></p>
+          <%= link_to "รายละเอียดวิชา", course_path(@course), 
+              class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1 #{'bg-slate-700' if action_name == 'show'}" %>
+          <%= link_to "นักศึกษา", "#", 
+              class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1" %>
+          <%= link_to "เช็คชื่อ", "#", 
+              class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1" %>
+        <% else %>
+          <!-- อยู่หน้า Index หรือ New -->
+          <%= link_to courses_path, class: "block py-2 px-2 rounded hover:bg-slate-700 mb-2 #{'bg-slate-700' if action_name == 'index'}" do %>
+            📚 รายวิชา
+          <% end %>
+        <% end %>
+        <hr class="border-slate-600 my-4">
+        <%= button_to "ออกจากระบบ", destroy_user_session_path, method: :delete, class: "w-full text-left py-2 px-2 rounded hover:bg-slate-700" %>
+      </nav>
+    </aside>
+    <!-- Main Content -->
+    <main class="flex-1 p-8 bg-slate-100">
+      <% if notice %>
+        <div class="bg-green-100 text-green-800 p-4 rounded mb-4"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="bg-red-100 text-red-800 p-4 rounded mb-4"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 # app/controllers/courses_controller.rb
 class CoursesController < ApplicationController
+  layout "teacher"
+
   before_action :authenticate_user!
   before_action :require_teacher
   before_action :set_course, only: %i[show edit update destroy]
