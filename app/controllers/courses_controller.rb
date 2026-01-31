@@ -22,11 +22,10 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      # เพิ่ม current_user เป็นอาจารย์ด้วยถ้าไม่ได้เลือก
-      unless @course.teacher_ids.include?(current_user.id)
+      if @course.teachers.empty?
         @course.teachers << current_user
       end
-      redirect_to @course, notice: "สร้างวิชาสำเร็จ"
+      redirect_to courses_path, notice: "สร้างวิชาสำเร็จ"
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +33,7 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update(course_params)
-      redirect_to @course, notice: "แก้ไขวิชาสำเร็จ"
+      redirect_to courses_path, notice: "แก้ไขวิชาสำเร็จ"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -52,7 +51,8 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:code, :name, :year, :semester, teacher_ids: [])
+    params.require(:course).permit(:code, :name, :year, :semester,
+      course_teachers_attributes: [ :id, :user_id, :_destroy ])
   end
 
   def require_teacher

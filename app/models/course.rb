@@ -4,6 +4,8 @@ class Course < ApplicationRecord
 
   has_many :enrolled_students, dependent: :destroy
 
+   accepts_nested_attributes_for :course_teachers, allow_destroy: true, reject_if: :all_blank
+
   validates :code, presence: true
   validates :name, presence: true
   validates :year, presence: true

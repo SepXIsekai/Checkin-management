@@ -1,5 +1,5 @@
 <!-- app/views/courses/_form.html.erb -->
-<%= form_with(model: course) do |form| %>
+<%= form_with(model: course, data: { controller: "nested-form" }) do |form| %>
   <% if course.errors.any? %>
     <div style="color: red;">
       <% course.errors.full_messages.each do |msg| %>
@@ -24,13 +24,31 @@
     <p><%= form.select :semester, [[1, 1], [2, 2], ['ฤดูร้อน', 3]] %></p>
   </div>
   <div class="field">
-    <p><%= form.label :teacher_ids, "อาจารย์ผู้สอน" %></p>
-    <p><%= form.collection_check_boxes :teacher_ids, User.teacher, :id, :name do |b| %>
-        <div>
-          <%= b.check_box %>
-          <%= b.label %>
+    <p><strong>อาจารย์ผู้สอน</strong></p>
+    <div data-nested-form-target="container">
+      <%= form.fields_for :course_teachers do |ct| %>
+        <div class="nested-row">
+          <%= ct.hidden_field :id %>
+          <%= ct.hidden_field :_destroy %>
+          <%= ct.select :user_id, User.teacher.pluck(:name, :id), { include_blank: "เลือกอาจารย์" }, { data: { action: "change->nested-form#change" } } %>
+          <button type="button" data-action="nested-form#remove">ลบ</button>
         </div>
-      <% end %></p>
+      <% end %>
+    </div>
+    <template data-nested-form-target="template">
+      <div class="nested-row">
+        <select name="course[course_teachers_attributes][NEW_RECORD][user_id]" data-action="change->nested-form#change">
+          <option value="">เลือกอาจารย์</option>
+          <% User.teacher.each do |teacher| %>
+            <option value="<%= teacher.id %>"><%= teacher.name %></option>
+          <% end %>
+        </select>
+        <button type="button" data-action="nested-form#remove">ลบ</button>
+      </div>
+    </template>
+    <p>
+      <button type="button" data-action="nested-form#add">+ เพิ่มอาจารย์</button>
+    </p>
   </div>
   <div class="actions">
     <%= form.submit "บันทึก" %>
