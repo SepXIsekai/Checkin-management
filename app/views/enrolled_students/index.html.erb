@@ -1,0 +1,52 @@
+<!-- app/views/enrolled_students/index.html.erb -->
+<h1 class="text-2xl font-bold mb-4">นักศึกษา - <%= @course.code %></h1>
+<!-- Import Form -->
+<div class="bg-white rounded shadow p-6 mb-6">
+  <h2 class="text-lg font-semibold mb-4">Import นักศึกษา</h2>
+  <%= form_with url: course_enrolled_students_path(@course), method: :post, local: true, multipart: true, class: "flex gap-4 items-end" do |f| %>
+    <div>
+      <p class="text-slate-500 mb-2 text-sm">ไฟล์ Excel หรือ CSV (คอลัมน์: student_id หรือ รหัสนักศึกษา)</p>
+      <%= f.file_field :file, accept: ".xlsx,.xls,.csv", class: "block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+    </div>
+    <%= f.submit "Import", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer" %>
+  <% end %>
+  <hr class="my-4">
+  <h3 class="font-semibold mb-2">เพิ่มทีละคน</h3>
+  <%= form_with url: course_enrolled_students_path(@course), method: :post, local: true, class: "flex gap-2" do |f| %>
+    <%= f.text_field :student_id, placeholder: "รหัสนักศึกษา", class: "border rounded px-3 py-2" %>
+    <%= f.submit "เพิ่ม", class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer" %>
+  <% end %>
+</div>
+<!-- Student List -->
+<div class="bg-white rounded shadow p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold">รายชื่อนักศึกษา (<%= @enrolled_students.count %> คน)</h2>
+    <% if @enrolled_students.any? %>
+      <%= button_to "ลบทั้งหมด", clear_enrolled_students_course_path(@course), method: :delete, data: { turbo_confirm: "ยืนยันการลบนักศึกษาทั้งหมด?" }, class: "bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700" %>
+    <% end %>
+  </div>
+  <% if @enrolled_students.any? %>
+    <table class="w-full">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="text-left p-3">ลำดับ</th>
+          <th class="text-left p-3">รหัสนักศึกษา</th>
+          <th class="text-left p-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @enrolled_students.each_with_index do |student, index| %>
+          <tr class="border-t">
+            <td class="p-3"><%= index + 1 %></td>
+            <td class="p-3"><%= student.student_id %></td>
+            <td class="p-3">
+              <%= button_to "ลบ", course_enrolled_student_path(@course, student), method: :delete, data: { turbo_confirm: "ยืนยันการลบ?" }, class: "text-red-600 hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-slate-500">ยังไม่มีนักศึกษา</p>
+  <% end %>
+</div>

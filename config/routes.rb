@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :courses
+  resources :courses do
+    resources :enrolled_students, only: [ :index, :create, :destroy ]
+    delete "clear_enrolled_students", to: "enrolled_students#destroy_all", on: :member
+  end
   get "pages/home"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
