@@ -3,8 +3,9 @@ class Course < ApplicationRecord
   has_many :teachers, through: :course_teachers, source: :user
 
   has_many :enrolled_students, dependent: :destroy
+  has_many :checkin_forms, dependent: :destroy
 
-   accepts_nested_attributes_for :course_teachers, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :course_teachers, allow_destroy: true, reject_if: :all_blank
 
   validates :code, presence: true
   validates :name, presence: true

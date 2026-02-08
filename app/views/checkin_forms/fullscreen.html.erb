@@ -1,0 +1,29 @@
+<!-- app/views/checkin_forms/fullscreen.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QR Code - <%= @checkin_form.title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="bg-white min-h-screen flex flex-col items-center justify-center text-center p-8"
+        data-controller="qr-refresh"
+        data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>">
+    <h1 class="text-4xl font-bold mb-2"><%= @course.code %></h1>
+    <h2 class="text-2xl text-slate-600 mb-2"><%= @course.name %></h2>
+    <p class="text-xl text-slate-500 mb-8"><%= @checkin_form.title %></p>
+    
+    <div class="mb-8 h-[400px] mx-auto" data-qr-refresh-target="qrcode">
+      <%= @checkin_form.qr_code_svg.html_safe %>
+    </div>
+    
+    <p class="text-lg text-slate-500 mb-4">Scan เพื่อเช็คชื่อ</p>
+    <p class="text-sm text-slate-400" data-qr-refresh-target="url"><%= @checkin_form.checkin_url %></p>
+    <% if @checkin_form.expires_at %>
+      <p class="mt-8 text-red-500">หมดเวลา: <%= l(@checkin_form.expires_at, format: :long) %></p>
+    <% end %>
+  </body>
+</html>

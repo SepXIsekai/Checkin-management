@@ -1,0 +1,71 @@
+<!-- app/views/checkin_forms/show.html.erb -->
+<h1 class="text-2xl font-bold mb-4"><%= @checkin_form.title %></h1>
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white rounded shadow p-6 text-center"
+       data-controller="qr-refresh"
+       data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>">
+    <h2 class="text-lg font-semibold mb-4">QR Code</h2>
+    <div class="flex justify-center mb-4" data-qr-refresh-target="qrcode">
+      <%= @checkin_form.qr_code_svg.html_safe %>
+    </div>
+    <p class="text-sm text-slate-500 break-all" data-qr-refresh-target="url"><%= @checkin_form.checkin_url %></p>
+    <div class="mt-4 flex justify-center gap-2 flex-wrap">
+      <%= link_to "แสดง QR เต็มจอ", fullscreen_course_checkin_form_path(@course, @checkin_form), 
+          target: "_blank",
+          class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+      <%= button_to @checkin_form.active? ? "ปิดฟอร์ม" : "เปิดฟอร์ม", 
+          toggle_course_checkin_form_path(@course, @checkin_form), 
+          method: :patch,
+          class: @checkin_form.active? ? "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" : "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+      <%= button_to "ลบ", course_checkin_form_path(@course, @checkin_form), 
+          method: :delete, 
+          data: { turbo_confirm: "ยืนยันการลบ?" },
+          class: "bg-slate-200 px-4 py-2 rounded hover:bg-slate-300" %>
+    </div>
+  </div>
+  <div class="bg-white rounded shadow p-6">
+    <h2 class="text-lg font-semibold mb-4">สถานะ</h2>
+    <div class="space-y-2">
+      <p>
+        <span class="text-slate-500">สถานะ:</span>
+        <% if @checkin_form.open? %>
+          <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">เปิด</span>
+        <% elsif @checkin_form.expired? %>
+          <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">หมดเวลา</span>
+        <% else %>
+          <span class="bg-slate-100 text-slate-800 px-2 py-1 rounded text-sm">ปิด</span>
+        <% end %>
+      </p>
+      <p><span class="text-slate-500">หมดเวลา:</span> <%= @checkin_form.expires_at ? l(@checkin_form.expires_at, format: :long) : 'ไม่กำหนด' %></p>
+      <p><span class="text-slate-500">เช็คชื่อแล้ว:</span> <%= @checkin_form.attendances.count %> คน</p>
+    </div>
+  </div>
+</div>
+<!-- รายชื่อคนเช็คชื่อ -->
+<div class="bg-white rounded shadow p-6 mt-6">
+  <h2 class="text-lg font-semibold mb-4">รายชื่อที่เช็คชื่อแล้ว</h2>
+  <% if @checkin_form.attendances.any? %>
+    <table class="w-full">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="text-left p-3">ลำดับ</th>
+          <th class="text-left p-3">รหัสนักศึกษา</th>
+          <th class="text-left p-3">ชื่อ</th>
+          <th class="text-left p-3">เวลา</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @checkin_form.attendances.order(:checked_at).each_with_index do |attendance, index| %>
+          <tr class="border-t">
+            <td class="p-3"><%= index + 1 %></td>
+            <td class="p-3"><%= attendance.student_id %></td>
+            <td class="p-3"><%= attendance.name %></td>
+            <td class="p-3"><%= l(attendance.checked_at, format: :short) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-slate-500">ยังไม่มีคนเช็คชื่อ</p>
+  <% end %>
+</div>

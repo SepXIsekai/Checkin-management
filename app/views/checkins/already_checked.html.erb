@@ -1,0 +1,13 @@
+<!-- app/views/checkins/already_checked.html.erb -->
+<div class="bg-white rounded shadow p-6 w-full max-w-md text-center">
+  <div class="text-6xl mb-4">✅</div>
+  <h1 class="text-2xl font-bold mb-2 text-green-600">เช็คชื่อไปแล้ว</h1>
+  <p class="text-slate-500 mb-2"><%= @course.code %> - <%= @course.name %></p>
+  <p class="text-slate-500 mb-4"><%= @checkin_form.title %></p>
+  
+  <div class="bg-slate-50 rounded p-4">
+    <p><strong>รหัส:</strong> <%= @attendance.student_id %></p>
+    <p><strong>ชื่อ:</strong> <%= @attendance.name %></p>
+    <p><strong>เวลา:</strong> <%= l(@attendance.checked_at, format: :long) %></p>
+  </div>
+</div>

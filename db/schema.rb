@@ -10,9 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_31_043758) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_08_050439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "checkin_form_id", null: false
+    t.string "student_id"
+    t.string "name"
+    t.datetime "checked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checkin_form_id", "student_id"], name: "index_attendances_on_checkin_form_id_and_student_id", unique: true
+    t.index ["checkin_form_id"], name: "index_attendances_on_checkin_form_id"
+  end
+
+  create_table "checkin_forms", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "title"
+    t.string "qr_token"
+    t.datetime "expires_at"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "token_expires_at"
+    t.index ["course_id"], name: "index_checkin_forms_on_course_id"
+    t.index ["qr_token"], name: "index_checkin_forms_on_qr_token", unique: true
+  end
 
   create_table "course_teachers", force: :cascade do |t|
     t.bigint "course_id", null: false
@@ -55,6 +79,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_31_043758) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "attendances", "checkin_forms"
+  add_foreign_key "checkin_forms", "courses"
   add_foreign_key "course_teachers", "courses"
   add_foreign_key "course_teachers", "users"
   add_foreign_key "enrolled_students", "courses"

@@ -1,0 +1,14 @@
+class Attendance < ApplicationRecord
+  belongs_to :checkin_form
+  validates :student_id, presence: true
+  validates :name, presence: true
+  validates :student_id, uniqueness: { scope: :checkin_form_id, message: "เช็คชื่อไปแล้ว" }
+
+  before_create :set_checked_at
+
+  private
+
+  def set_checked_at
+    self.checked_at ||= Time.current
+  end
+end

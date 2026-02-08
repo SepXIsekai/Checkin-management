@@ -2,7 +2,19 @@ Rails.application.routes.draw do
   resources :courses do
     resources :enrolled_students, only: [ :index, :create, :destroy ]
     delete "clear_enrolled_students", to: "enrolled_students#destroy_all", on: :member
+    resources :checkin_forms, only: [ :index, :new, :create, :show, :destroy ] do
+      member do
+        patch :toggle
+        get :qr_code
+        get :fullscreen
+      end
+    end
   end
+
+  get "checkin/:token", to: "checkins#new", as: :checkin
+  post "checkin/:token", to: "checkins#create"
+  get "checkin/:token/success", to: "checkins#success", as: :checkin_success
+
   get "pages/home"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -25,8 +25,8 @@
               class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1 #{'bg-slate-700' if action_name == 'show'}" %>
           <%= link_to "นักศึกษา", course_enrolled_students_path(@course), 
     class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1 #{'bg-slate-700' if controller_name == 'enrolled_students'}" %>
-          <%= link_to "เช็คชื่อ", "#", 
-              class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1" %>
+          <%= link_to "เช็คชื่อ", course_checkin_forms_path(@course), 
+    class: "block py-2 px-2 rounded hover:bg-slate-700 mb-1 #{'bg-slate-700' if controller_name == 'checkin_forms'}" %>
         <% else %>
           <!-- อยู่หน้า Index หรือ New -->
           <%= link_to courses_path, class: "block py-2 px-2 rounded hover:bg-slate-700 mb-2 #{'bg-slate-700' if action_name == 'index'}" do %>

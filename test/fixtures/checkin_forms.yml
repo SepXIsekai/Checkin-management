@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  course: one
+  title: MyString
+  qr_token: MyString
+  expires_at: 2026-02-08 11:34:39
+  active: false
+
+two:
+  course: two
+  title: MyString
+  qr_token: MyString
+  expires_at: 2026-02-08 11:34:39
+  active: false
