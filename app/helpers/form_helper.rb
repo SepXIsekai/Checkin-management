@@ -7,15 +7,7 @@ module FormHelper
 
         concat f.send("#{type}_field", field,
           placeholder: placeholder,
-          class: "w-full h-12 sm:h-14 rounded-lg
-        border border-[#dcdce5]
-        bg-white
-        px-4 text-sm sm:text-base
-        text-[#111118]
-        placeholder:text-[#636388]
-        focus:outline-none focus:ring-2
-        focus:ring-[#261ce6] focus:border-[#261ce6]
-        transition")
+          class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm sm:text-base text-[#111118] placeholder:text-[#636388] focus:outline-none  focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition")
       end
     end
   end
