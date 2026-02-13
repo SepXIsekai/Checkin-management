@@ -1,31 +1,52 @@
-<!-- app/views/courses/index.html.erb -->
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold">รายวิชาทั้งหมด</h1>
-  <%= link_to "สร้างวิชาใหม่", new_course_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+  <h1 class="text-xl font-bold">Manage Courses</h1>
+  <%= link_to "Create New Course", new_course_path, class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" %>
 </div>
-
-<div class="bg-white rounded shadow">
-  <table class="w-full">
-    <thead class="bg-slate-50">
-      <tr>
-        <th class="text-left p-4">รหัสวิชา</th>
-        <th class="text-left p-4">ชื่อวิชา</th>
-        <th class="text-left p-4">ปี/เทอม</th>
-        <th class="text-left p-4"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @courses.each do |course| %>
-        <tr class="border-t">
-          <td class="p-4"><%= course.code %></td>
-          <td class="p-4"><%= course.name %></td>
-          <td class="p-4"><%= course.year %>/<%= course.semester %></td>
-          <td class="p-4">
-            <%= link_to "ดู", course, class: "text-blue-600 hover:underline" %>
-            <%= link_to "แก้ไข", edit_course_path(course), class: "text-blue-600 hover:underline ml-2" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="m-12">
+  <div class="flex justify-between items-baseline mb-8">
+    <div>
+      <div class="font-bold text-2xl text-black mb-1">
+        Current Course
+      </div>
+      <div class="text-sm text-slate-500">
+        Manage your active classes for this semester
+      </div>
+    </div>
+    <div class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium shadow-sm">
+      <span class="text-[#261ce6] font-bold"><%= @courses.count %></span> Courses active
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-10">
+    <% @courses.each do |course| %>
+      <div class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-4 mb-6">
+            <div class="flex size-14  items-center justify-center rounded-2xl bg-[#261ce6]/10 text-[#261ce6]">
+              <%= image_tag "backoffice/course-summary-icon.svg", class: "w-6 h-6 " %>
+            </div>
+            <div>
+              <p class="text-2xl font-semibold text-slate-900 group-hover:text-[#261ce6] transition-colors">
+                <%= course.name %>
+              </p>
+              <div class="flex items-center gap-2 text-slate-500 text-sm mt-1">
+                <span><%= course.code %></span>
+                <span>•</span>
+                <span><%= course.year %>/<%= course.semester %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <%= link_to edit_course_path(course), class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-all" do %>
+            <%= image_tag "backoffice/edit-icon.svg", class: "w-5 h-5" %>
+            <span>Edit</span>
+          <% end %>
+          <%= link_to course_path(course), class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-[#261ce6] hover:bg-[#1a14a3] text-white rounded-xl font-semibold transition-all shadow-lg shadow-[#261ce6]/20 active:scale-95" do %>
+            <%= image_tag "backoffice/setting-icon.svg", class: "w-6 h-6" %>
+            <span>Manage</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
