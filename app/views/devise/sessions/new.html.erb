@@ -2,7 +2,7 @@
   <div class="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl flex flex-col gap-4 px-4 sm:px-6">
     <div class="flex flex-col items-center justify-center mb-6 sm:mb-8">
       <div class="bg-[#261ce6]/10 p-4 sm:p-5 rounded-full mb-4">
-        <%= image_tag "login-page/school-login.svg",
+        <%= image_tag "login-register-page/school-login.svg",
         class: "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" %>
       </div>
       <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-tight text-center">
@@ -12,7 +12,7 @@
     <div>
       <div class="w-full bg-linear-to-br from-[#261ce6] to-[#1a14a3] flex flex-col justify-end rounded-2xl min-h-[120px] sm:min-h-[140px] md:min-h-40 relative shadow-lg overflow-hidden">
         <div class="absolute inset-0 opacity-20 flex items-center justify-center">
-          <%= image_tag "login-page/user-admin.svg",
+          <%= image_tag "login-register-page/user-admin.svg",
             class: "w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" %>
         </div>
         <div class="p-4 sm:p-6 relative z-10">
@@ -31,7 +31,7 @@
         <div class="flex flex-col gap-2">
           <%= f.label :email, class: "text-slate-800 text-sm font-medium" %>
           <div class="relative">
-            <%= image_tag "login-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition"%>
+            <%= image_tag "login-register-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition"%>
             <%= f.email_field :email, placeholder: "Enter Email", class: "w-full rounded-lg border border-slate-300 bg-slate-50  h-11 sm:h-12 pl-10 pr-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#261ce6] transition" %>
           </div>
         </div>
@@ -41,7 +41,7 @@
             <%= link_to "Forgot?", new_password_path(resource_name), class: "text-[#261ce6] font-semibold hover:underline text-sm font-medium" %>
           </div>
           <div class="relative group">
-            <%= image_tag "login-page/lock-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
+            <%= image_tag "login-register-page/lock-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
             <%= f.password_field :password, placeholder: "••••••••", class: "w-full rounded-lg border border-slate-300 bg-slate-50 h-11 sm:h-12 pl-10 pr-10 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#261ce6] transition" %>
           </div>
         </div>
@@ -49,7 +49,7 @@
           <%= button_tag type: "submit", class: "group w-full bg-[#261ce6] hover:bg-[#1a14a3] text-white font-semibold py-3 sm:py-3.5 rounded-lg transition active:scale-[0.98] shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer " do %>
             <span>Sign In</span>
             <span class="group-hover:translate-x-1 transition-transform ">
-              <%= image_tag "login-page/chevron-right-white.svg", class: "w-5 h-5 sm:w-6 sm:h-6" %>
+              <%= image_tag "login-register-page/chevron-right-white.svg", class: "w-5 h-5 sm:w-6 sm:h-6" %>
             </span>
           <% end %>
         </div>

@@ -1,6 +1,10 @@
 <div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
   <h1 class="text-xl font-bold">Manage Courses</h1>
-  <%= link_to "Create New Course", new_course_path, class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" %>
+  <%= link_to new_course_path,
+      class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" do %>
+    <%= image_tag "backoffice/add-icon-white.svg", class: "w-5 h-5" %>
+    Create New Course
+  <% end %>
 </div>
 <div class="m-12">
   <div class="flex justify-between items-baseline mb-8">
@@ -9,7 +13,7 @@
         Current Course
       </div>
       <div class="text-sm text-slate-500">
-        Manage your active classes for this semester
+        Manage your active classes for this semester.
       </div>
     </div>
     <div class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium shadow-sm">

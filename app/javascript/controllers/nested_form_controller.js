@@ -37,6 +37,18 @@ export default class extends Controller {
 
   change() {
     this.updateOptions();
+
+    const select = event.target;
+
+    if (select.value === "") {
+      select.classList.remove("text-[#111118]");
+      select.classList.add("text-[#636388]");
+    } else {
+      select.classList.remove("text-[#636388]");
+      select.classList.add("text-[#111118]");
+    }
+
+    this.updateOptions();
   }
 
   updateOptions() {

@@ -14,7 +14,7 @@
         <div class="flex flex-col gap-2">
           <%= f.label :email, class: "text-slate-800 text-sm font-medium" %>
           <div class="relative">
-            <%= image_tag "login-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
+            <%= image_tag "login-register-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
             <%= f.email_field :email,
               autofocus: true,
               autocomplete: "email",
@@ -27,7 +27,7 @@
               class: "group w-full bg-[#261ce6] hover:bg-[#1a14a3] text-white font-semibold py-3 sm:py-3.5 rounded-lg transition active:scale-[0.98] shadow-md flex items-center justify-center gap-2" do %>
             <span>Send Reset Link</span>
             <span class="group-hover:translate-x-1 transition-transform ">
-              <%= image_tag "login-page/chevron-right-white.svg",
+              <%= image_tag "login-register-page/chevron-right-white.svg",
                 class: "w-5 h-5 sm:w-6 sm:h-6" %>
             </span>
           <% end %>

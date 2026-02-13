@@ -1,56 +1,49 @@
-<!-- app/views/courses/_form.html.erb -->
-<%= form_with(model: course, data: { controller: "nested-form" }) do |form| %>
-  <% if course.errors.any? %>
-    <div style="color: red;">
-      <% course.errors.full_messages.each do |msg| %>
-        <p><%= msg %></p>
-      <% end %>
-    </div>
-  <% end %>
-  <div class="field">
-    <p><%= form.label :code, "รหัสวิชา" %></p>
-    <p><%= form.text_field :code %></p>
-  </div>
-  <div class="field">
-    <p><%= form.label :name, "ชื่อวิชา" %></p>
-    <p><%= form.text_field :name %></p>
-  </div>
-  <div class="field">
-    <p><%= form.label :year, "ปีการศึกษา" %></p>
-    <p><%= form.number_field :year %></p>
-  </div>
-  <div class="field">
-    <p><%= form.label :semester, "ภาคเรียน" %></p>
-    <p><%= form.select :semester, [[1, 1], [2, 2], ['ฤดูร้อน', 3]] %></p>
-  </div>
-  <div class="field">
-    <p><strong>อาจารย์ผู้สอน</strong></p>
-    <div data-nested-form-target="container">
-      <%= form.fields_for :course_teachers do |ct| %>
-        <div class="nested-row">
-          <%= ct.hidden_field :id %>
-          <%= ct.hidden_field :_destroy %>
-          <%= ct.select :user_id, User.teacher.pluck(:name, :id), { include_blank: "เลือกอาจารย์" }, { data: { action: "change->nested-form#change" } } %>
-          <button type="button" data-action="nested-form#remove">ลบ</button>
-        </div>
-      <% end %>
-    </div>
-    <template data-nested-form-target="template">
-      <div class="nested-row">
-        <select name="course[course_teachers_attributes][NEW_RECORD][user_id]" data-action="change->nested-form#change">
-          <option value="">เลือกอาจารย์</option>
-          <% User.teacher.each do |teacher| %>
-            <option value="<%= teacher.id %>"><%= teacher.name %></option>
-          <% end %>
-        </select>
-        <button type="button" data-action="nested-form#remove">ลบ</button>
-      </div>
-    </template>
-    <p>
-      <button type="button" data-action="nested-form#add">+ เพิ่มอาจารย์</button>
-    </p>
-  </div>
-  <div class="actions">
-    <%= form.submit "บันทึก" %>
+<% if form.object.errors.any? %>
+  <div class="mb-6 text-sm text-red-600">
+    <% form.object.errors.full_messages.each do |msg| %>
+      <p><%= msg %></p>
+    <% end %>
   </div>
 <% end %>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <%= form_input form, :code, label: "Course Code", placeholder: "e.g. 51XXXX" %>
+  <%= form_input form, :name, label: "Course Name", placeholder: "e.g. Web Application Development" %>
+  <%= form_input form, :year, label: "Year", type: :number, placeholder: "2025" %>
+  <%= form_select form, :semester, label: "Semester", options: [[1,1],[2,2],["Summer",3]] %>
+</div>
+<div class="mt-6">
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="text-base font-semibold text-[#111118]">Instructor</h3>
+    <button type="button" data-action="nested-form#add" class="flex items-center p-2 gap-1 rounded-lg text-[#261ce6] bg-[#261ce6]/10 hover:bg-[#261ce6]/5 transition font-medium text-sm cursor-pointer">
+      <%= image_tag "backoffice/add-icon-blue.svg", class: "w-5 h-5" %>
+      Add Instructor
+    </button>
+  </div>
+  <div data-nested-form-target="container" class="space-y-4">
+    <%= form.fields_for :course_teachers do |ct| %>
+      <div class="nested-row flex items-center gap-3">
+        <%= ct.hidden_field :id %>
+        <%= ct.hidden_field :_destroy %>
+        <%= ct.select :user_id,
+            User.teacher.pluck(:name, :id), { prompt: "Select Instructor" }, { class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm transition focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] #{ct.object.user_id.present? ? 'text-[#111118]' : 'text-[#636388]'}", data: { action: "change->nested-form#change" }
+            } %>
+        <button type="button" data-action="nested-form#remove" class="h-12 sm:h-14 w-12 sm:w-14 flex items-center justify-center rounded-lg border border-[#dcdce5] bg-white text-slate-200 hover:bg-red-50 hover:border-red-200 transition group cursor-pointer">
+          <%= image_tag "backoffice/delete-icon.svg", class: "w-5 h-5 opacity-40 group-hover:opacity-100 transition" %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+  <template data-nested-form-target="template">
+    <div class="nested-row flex items-center gap-3">
+      <select name="course[course_teachers_attributes][NEW_RECORD][user_id]" class="w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm text-[#636388] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition" data-action="change->nested-form#change">
+        <option value="">Select Instructor</option>
+        <% User.teacher.each do |teacher| %>
+          <option value="<%= teacher.id %>"><%= teacher.name %></option>
+        <% end %>
+      </select>
+      <button type="button" data-action="nested-form#remove" class="h-12 sm:h-14 w-12 sm:w-14 flex items-center justify-center rounded-lg border border-[#dcdce5] bg-white text-slate-200 hover:bg-red-50 hover:border-red-200 transition group cursor-pointer">
+        <%= image_tag "backoffice/delete-icon.svg", class: "w-5 h-5 opacity-40 group-hover:opacity-100 transition" %>
+      </button>
+    </div>
+  </template>
+</div>

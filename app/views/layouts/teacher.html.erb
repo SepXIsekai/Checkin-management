@@ -10,7 +10,6 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="flex min-h-screen">
-    <!-- Sidebar -->
     <aside class="w-64 bg-white text-black p-4">
       <div class="mb-8">
         <h1 class="text-xl font-bold text-black">Teacher Portal</h1>
@@ -18,7 +17,6 @@
       </div>
       <nav>
         <% if @course&.persisted? %>
-          <!-- อยู่ในหน้า Course (show, edit) -->
           <%= link_to courses_path, class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 mb-2" do %>
             <%= image_tag "backoffice/back-icon.svg", class: "w-5 h-5 " %>
             <span>Back</span>
@@ -37,7 +35,7 @@
             <span>Session</span>
           <% end %>
         <% else %>
-          <%= link_to courses_path, class: "flex items-center gap-2 text-[#261ce6] font-semibold py-3 px-4 rounded-xl mb-2 transition #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if action_name == 'index'}" do %>
+          <%= link_to courses_path, class: "flex items-center gap-2 text-[#261ce6] font-semibold py-3 px-4 rounded-xl mb-2 transition #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if controller_name == 'courses' && ['index','new'].include?(action_name)}" do %>
             <%= image_tag "backoffice/course-icon.svg", class: "w-5 h-5 " %>
             <span>Courses</span>
           <% end %>
@@ -46,7 +44,6 @@
         <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "cursor-pointer text-white font-semibold block py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] mb-2" %>
       </nav>
     </aside>
-    <!-- Main Content -->
     <main class="flex-1 bg-[#f8fafc]">
       <% if notice %>
         <div class="bg-green-100 text-green-800 p-4 rounded mb-4"><%= notice %></div>
@@ -58,229 +55,3 @@
     </main>
   </body>
 </html>
-<%# <!DOCTYPE html>
-<html class="light" lang="en"><head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Desktop Teacher Console Dashboard</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-      tailwind.config = {
-          darkMode: "class",
-          theme: {
-              extend: {
-                  colors: {
-                      "primary": "#261ce6", // Navy Blue
-                      "background-light": "#F8FAFC",
-                      "background-dark": "#0F172A",
-                  },
-                  fontFamily: {
-                      "display": ["Lexend", "sans-serif"]
-                  },
-                  borderRadius: {
-                      "DEFAULT": "0.375rem",
-                      "lg": "0.5rem",
-                      "xl": "1rem",
-                      "2xl": "1.25rem",
-                      "full": "9999px"
-                  },
-              },
-          },
-      }
-    </script>
-    <style type="text/tailwindcss">
-      :root {
-          --primary: #261ce6
-          }
-      body {
-          min-height: 100vh
-          }
-      .sidebar-item-active {
-          @apply bg-primary/10 text-primary border-r-4 border-primary;
-          }
-      .ios-dropdown {
-          appearance: none;
-          background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAQCQepDAXnaeqLb6ajGLzRtufEKEHvjtWr2Pka9Zpde0u55IE5OGndYlmPocM7pUQeQ3pngO0XEyWManJyq72wAdO1nihaLA2H5wuUdbDg5bzP7Rbyl0D7d2_0TcZSIjHx35SEL0t0cDIVbdK1d5xcSahU-m6TFGQOBxcPMqshaYBz-v9kWR_BlJrCBYade1yOfKQbF6TJr6oWJp27sWI2n5DpIdfxVE2DQlM1rgDBNcT6uR_tRSW1XncmLKr5P8wR6-Twxs53sNg);
-          background-repeat: no-repeat;
-          background-position: right 0.75rem center;
-          background-size: 1rem
-          }
-    </style>
-    <style>
-      body {
-        min-height: max(884px, 100dvh);
-      }
-    </style>
-  </head>
-  <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
-    <div class="flex min-h-screen w-full">
-      <aside class="fixed inset-y-0 left-0 z-50 w-64 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 lg:flex flex-col hidden">
-        <div class="flex h-16 items-center px-6 border-b border-slate-100 dark:border-slate-800">
-          <div class="flex items-center gap-2">
-            <div class="size-8 rounded bg-primary flex items-center justify-center text-white">
-              <span class="material-symbols-outlined text-xl">school</span>
-            </div>
-            <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">EduConsole</span>
-          </div>
-        </div>
-        <nav class="flex-1 space-y-1 p-4">
-          <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="font-medium">Dashboard</span>
-          </a>
-          <a class="sidebar-item-active flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" href="#">
-            <span class="material-symbols-outlined">menu_book</span>
-            <span class="font-medium">Courses</span>
-          </a>
-          <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-            <span class="material-symbols-outlined">group</span>
-            <span class="font-medium">Students</span>
-          </a>
-          <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-            <span class="material-symbols-outlined">bar_chart</span>
-            <span class="font-medium">Reports</span>
-          </a>
-          <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-            <span class="material-symbols-outlined">settings</span>
-            <span class="font-medium">Settings</span>
-          </a>
-        </nav>
-        <div class="p-4 border-t border-slate-100 dark:border-slate-800">
-          <div class="flex items-center gap-3 px-2 py-2">
-            <div class="size-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
-              JD
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate">Jane Doe</p>
-              <p class="text-xs text-slate-500 truncate">Senior Lecturer</p>
-            </div>
-          </div>
-        </div>
-      </aside>
-      <div class="lg:ml-64 flex flex-col flex-1 min-w-0">
-        <header class="sticky top-0 z-40 flex h-16  items-center justify-between border-b border-slate-200 bg-white/80 px-8 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
-          <div class="flex items-center gap-8">
-            <h1 class="text-xl font-bold text-slate-900 dark:text-white">Manage Courses</h1>
-            <div class="w-64">
-              <select class="ios-dropdown w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm font-semibold py-2 pl-4 pr-10 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
-                <option value="2/2023">Semester 2/2023</option>
-                <option selected="" value="1/2023">Semester 1/2023</option>
-                <option value="2/2022">Semester 2/2022</option>
-                <option value="1/2022">Semester 1/2022</option>
-              </select>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <button class="flex items-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98]">
-              <span class="material-symbols-outlined text-lg">add</span>
-              <span>Create New Course</span>
-            </button>
-          </div>
-        </header>
-        <main class="p-8">
-          <div class="max-w-6xl mx-auto">
-            <div class="flex items-center justify-between mb-8">
-              <div>
-                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Current Courses</h2>
-                <p class="text-slate-500 mt-1">Manage your active classes for this semester</p>
-              </div>
-              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl text-sm font-medium">
-                <span class="text-primary font-bold">3</span> Courses active
-              </div>
-            </div>
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <div class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                <div class="flex items-start justify-between mb-6">
-                  <div class="flex items-center gap-4">
-                    <div class="flex size-14  items-center justify-center rounded-2xl bg-blue-50 dark:bg-primary/10 text-primary">
-                      <span class="material-symbols-outlined text-3xl">terminal</span>
-                    </div>
-                    <div>
-                      <p class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Computer Science 101</p>
-                      <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mt-1">
-                        <span>CS101</span>
-                        <span>•</span>
-                        <span>Section A</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 45 Students</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex gap-3 mt-auto">
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                    <span class="material-symbols-outlined text-lg">edit</span>
-                    Edit
-                  </button>
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-primary text-white rounded-xl font-bold hover:opacity-90 transition-all">
-                    <span class="material-symbols-outlined text-lg">settings_suggest</span>
-                    Manage
-                  </button>
-                </div>
-              </div>
-              <div class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                <div class="flex items-start justify-between mb-6">
-                  <div class="flex items-center gap-4">
-                    <div class="flex size-14  items-center justify-center rounded-2xl bg-blue-50 dark:bg-primary/10 text-primary">
-                      <span class="material-symbols-outlined text-3xl">functions</span>
-                    </div>
-                    <div>
-                      <p class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Advanced Statistics II</p>
-                      <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mt-1">
-                        <span>STAT204</span>
-                        <span>•</span>
-                        <span>Section B</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 32 Students</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex gap-3 mt-auto">
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                    <span class="material-symbols-outlined text-lg">edit</span>
-                    Edit
-                  </button>
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-primary text-white rounded-xl font-bold hover:opacity-90 transition-all">
-                    <span class="material-symbols-outlined text-lg">settings_suggest</span>
-                    Manage
-                  </button>
-                </div>
-              </div>
-              <div class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                <div class="flex items-start justify-between mb-6">
-                  <div class="flex items-center gap-4">
-                    <div class="flex size-14  items-center justify-center rounded-2xl bg-blue-50 dark:bg-primary/10 text-primary">
-                      <span class="material-symbols-outlined text-3xl">public</span>
-                    </div>
-                    <div>
-                      <p class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">World History</p>
-                      <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mt-1">
-                        <span>HIS110</span>
-                        <span>•</span>
-                        <span>Section 1</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 120 Students</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex gap-3 mt-auto">
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                    <span class="material-symbols-outlined text-lg">edit</span>
-                    Edit
-                  </button>
-                  <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-primary text-white rounded-xl font-bold hover:opacity-90 transition-all">
-                    <span class="material-symbols-outlined text-lg">settings_suggest</span>
-                    Manage
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-  </body></html> %>

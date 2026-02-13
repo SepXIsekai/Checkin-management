@@ -15,6 +15,7 @@ class CoursesController < ApplicationController
 
   def new
     @course = Course.new
+    @course.course_teachers.build
   end
 
   def edit
