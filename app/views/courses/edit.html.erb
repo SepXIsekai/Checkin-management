@@ -1,13 +1,31 @@
-<%= form_with model: @course,
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-6 backdrop-blur-md">
+  <h1 class="text-xl font-bold">Course Management</h1>
+</div>
+<div class="m-12">
+  <div class="flex justify-between items-baseline mb-8">
+    <div>
+      <div class="font-bold text-2xl text-black mb-1">
+        Edit Course
+      </div>
+      <div class="text-sm text-slate-500">
+        Edit course details for the current semester.
+      </div>
+    </div>
+  </div>
+  <div class="rounded-2xl border border-slate-200 bg-white p-6">
+    <%= form_with model: @course,
       data: { controller: "nested-form" },
       class: "max-w-3xl" do |form| %>
-  <%= render "form", form: form %>
-  <div class="mt-12 flex justify-end gap-3">
-    <%= link_to "Cancel", courses_path,
+      <%= render "form", form: form %>
+      <div class="mt-12 flex justify-end gap-3">
+        <%= link_to "Cancel", courses_path,
         class: "px-6 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-200 rounded-lg transition" %>
-    <%= form.button type: "submit",
+        <%= form.button type: "submit",
           class: "flex items-center gap-2 px-4 py-2.5 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition-all cursor-pointer" do %>
-      Update Course
+          <%= image_tag "backoffice/add-icon-white.svg", class: "w-5 h-5" %>
+          Update Course
+        <% end %>
+      </div>
     <% end %>
   </div>
-<% end %>
+</div>
