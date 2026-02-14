@@ -19,7 +19,7 @@ module FormHelper
           class: "pb-2 px-1 text-sm font-medium text-[#111118]"
 
         concat f.select field, options, {},
-          class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm text-[#111118] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition"
+          class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm text-[#111118] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition appearance-none"
       end
     end
   end

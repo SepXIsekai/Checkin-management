@@ -25,7 +25,7 @@
         <%= ct.hidden_field :id %>
         <%= ct.hidden_field :_destroy %>
         <%= ct.select :user_id,
-            User.teacher.pluck(:name, :id), { prompt: "Select Instructor" }, { class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm transition focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] #{ct.object.user_id.present? ? 'text-[#111118]' : 'text-[#636388]'}", data: { action: "change->nested-form#change" }
+            User.teacher.pluck(:name, :id), { prompt: "Select Instructor" }, { class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm transition focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] #{ct.object.user_id.present? ? 'text-[#111118]' : 'text-[#636388]'} appearance-none", data: { action: "change->nested-form#change" }
             } %>
         <button type="button" data-action="nested-form#remove" class="h-12 sm:h-14 w-12 sm:w-14 flex items-center justify-center rounded-lg border border-[#dcdce5] bg-white text-slate-200 hover:bg-red-50 hover:border-red-200 transition group cursor-pointer">
           <%= image_tag "backoffice/delete-icon.svg", class: "w-5 h-5 opacity-40 group-hover:opacity-100 transition" %>
@@ -35,7 +35,7 @@
   </div>
   <template data-nested-form-target="template">
     <div class="nested-row flex items-center gap-3">
-      <select name="course[course_teachers_attributes][NEW_RECORD][user_id]" class="w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm text-[#636388] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition" data-action="change->nested-form#change">
+      <select name="course[course_teachers_attributes][NEW_RECORD][user_id]" class="w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm text-[#636388] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition appearance-none" data-action="change->nested-form#change">
         <option value="">Select Instructor</option>
         <% User.teacher.each do |teacher| %>
           <option value="<%= teacher.id %>"><%= teacher.name %></option>
