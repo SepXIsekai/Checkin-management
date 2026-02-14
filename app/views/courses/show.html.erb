@@ -1,6 +1,13 @@
-<div class="flex flex-col items-start border-b border-slate-200 bg-white/80 px-8 py-6 backdrop-blur-md gap-y-1">
-  <h1 class="text-xl font-bold"><%= @course.name %></h1>
-  <p class="text-sm text-gray-400 font-medium"><%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+  <div class="flex flex-col items-start">
+    <h1 class="text-xl font-bold"><%= @course.name %></h1>
+    <p class="text-sm text-gray-400 font-medium"><%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+  </div>
+  <%= link_to new_course_checkin_form_path(@course),
+      class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" do %>
+    <%= image_tag "backoffice/add-icon-white.svg", class: "w-5 h-5" %>
+    Create Session
+  <% end %>
 </div>
 <div class="m-10">
   <div class="bg-[#261ce6] rounded-3xl p-10 text-white shadow-xl shadow-[#261ce6]/20 relative overflow-hidden mb-8">
