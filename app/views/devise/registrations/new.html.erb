@@ -24,24 +24,40 @@
         <%= form_input(f, :email, label: "Email", type: :email, placeholder: "example@university.ac.th") %>
         <%= form_input(f, :password, label: "Password", type: :password, placeholder: "••••••••") %>
         <%= form_input(f, :password_confirmation, label: "Confirm Password", type: :password, placeholder: "••••••••") %>
-        <%# [TODO] insert value of term and cond for each user %>
-        <div class="flex items-start gap-3 py-4 px-1">
-          <input class="mt-1 h-6 w-6 rounded border-gray-300 text-[#1e1ee6] focus:ring-[#1e1ee6] cursor-pointer" type="checkbox"/>
-          <p class="text-sm text-[#636388] leading-tight">
-            I agree to the <a class="text-[#1e1ee6] font-medium underline" href="#">Terms of Service</a> and <a class="text-[#1e1ee6] font-medium underline" href="#">Privacy Policy</a> regarding academic record management.
-          </p>
-        </div>
-        <div class="pt-6">
-          <%= f.submit "Create Account", class: "w-full h-12 sm:h-14 rounded-xl bg-[#261ce6] text-white font-semibold text-sm sm:text-base hover:bg-[#1a14a3]/90 transition active:scale-[0.98] cursor-pointer" %>
-        </div>
-        <div class="pt-6 text-center">
-          <p class="text-[#636388] dark:text-gray-400 text-medium max-sm:text-sm">
-            Already have an account?
-            <%= link_to "Log in", new_user_session_path, class: "text-[#1e1ee6] font-bold hover:underline" %>
-          </p>
-        </div>
-      <% end %>
+        <div data-controller="terms">
+          <div class="flex items-start gap-3 py-4 px-1">
+            <input
+      type="checkbox"
+      class="mt-1 h-6 w-6 rounded border-gray-300 text-[#1e1ee6] focus:ring-[#1e1ee6] cursor-pointer"
+      data-action="change->terms#toggle"
+              data-terms-target="checkbox"
+              />
+              <p class="text-sm text-[#636388] leading-tight">
+                I agree to the
+                <a class="text-[#1e1ee6] font-medium underline" href="#">Terms of Service</a>
+                and
+                <a class="text-[#1e1ee6] font-medium underline" href="#">Privacy Policy</a>
+                regarding academic record management.
+              </p>
+            </div>
+            <div class="pt-6">
+              <%= f.submit "Create Account",
+      disabled: true,
+      data: { terms_target: "submit" },
+      class: "w-full h-12 sm:h-14 rounded-xl bg-[#261ce6] text-white font-semibold text-sm sm:text-base
+              transition active:scale-[0.98]
+              disabled:opacity-40 disabled:cursor-not-allowed
+              enabled:hover:bg-[#1a14a3]/90 enabled:cursor-pointer" %>
+            </div>
+          </div>
+          <div class="pt-6 text-center">
+            <p class="text-[#636388] dark:text-gray-400 text-medium max-sm:text-sm">
+              Already have an account?
+              <%= link_to "Log in", new_user_session_path, class: "text-[#1e1ee6] font-bold hover:underline" %>
+            </p>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
-<%# [TODO] show validate every field %>
+  <%# [TODO] show validate every field %>
