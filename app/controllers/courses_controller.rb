@@ -11,6 +11,7 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @checkin_forms = @course.checkin_forms.order(created_at: :desc).limit(3)
   end
 
   def new
