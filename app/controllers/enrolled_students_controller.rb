@@ -8,6 +8,8 @@ class EnrolledStudentsController < ApplicationController
 
   def index
     @enrolled_students = @course.enrolled_students.order(:student_id)
+
+    @attendance_summary = Attendance.joins(:checkin_form).where(checkin_forms: { course_id: @course.id }).group(:student_id).count
   end
 
   def create

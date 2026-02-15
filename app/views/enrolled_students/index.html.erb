@@ -78,10 +78,9 @@
       Students List (<%= @enrolled_students.count %>)
     </div>
     <div class="flex items-center gap-3">
-      <%# [TODO] waiting for feature export to excel %>
       <%= link_to export_course_enrolled_students_path(@course, format: :xlsx), class: "px-5 py-2 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition cursor-pointer" do %>
-  Export to Excel
-<% end %>
+      Export Summary Attendance
+      <% end %>
       <% if @enrolled_students.any? %>
         <%= button_to "Delete All",
         clear_enrolled_students_course_path(@course),
@@ -121,7 +120,7 @@
                   <%= student.student_id %>
                 </td>
                 <td class="py-4 px-6 text-sm font-bold text-[#111827]">
-                  12
+                  <%= @attendance_summary[student.student_id] || 0 %>
                 </td>
                 <td class="py-4 px-6 text-right">
                   <%= button_to "Delete",
