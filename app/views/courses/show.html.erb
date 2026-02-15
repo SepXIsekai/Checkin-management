@@ -82,7 +82,6 @@
       <% end %>
     <% end %>
   <% else %>
-    <!-- Empty State -->
     <div class="bg-white border border-slate-200 rounded-3xl p-12 text-center">
       <div class="flex justify-center mb-6">
         <div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-[#261ce6]/10 text-[#261ce6]">
@@ -95,9 +94,6 @@
       <p class="text-sm text-gray-400 mb-6">
         There are no check-in sessions created for this course.
       </p>
-      <%= link_to "Create Session",
-        new_course_checkin_form_path(@course),
-        class: "inline-flex items-center gap-2 px-6 py-3 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-[#261ce6]/20" %>
     </div>
   <% end %>
 </div>
