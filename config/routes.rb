@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :courses do
-    resources :enrolled_students, only: [ :index, :create, :destroy ]
+    resources :enrolled_students, only: [ :index, :create, :destroy ] do
+      get :export, on: :collection
+    end
     delete "clear_enrolled_students", to: "enrolled_students#destroy_all", on: :member
     resources :checkin_forms, only: [ :index, :new, :create, :show, :destroy ] do
       member do

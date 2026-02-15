@@ -33,6 +33,58 @@ class EnrolledStudentsController < ApplicationController
     redirect_to course_enrolled_students_path(@course), notice: "ลบนักศึกษาทั้งหมดสำเร็จ"
   end
 
+  def export
+    @checkin_forms = @course.checkin_forms.order(:created_at)
+    @enrolled_students = @course.enrolled_students.order(:student_id)
+
+    p = Axlsx::Package.new
+    wb = p.workbook
+
+    wb.add_worksheet(name: "รายงานเช็คชื่อ") do |sheet|
+      title_style = sheet.styles.add_style(b: true, sz: 14)
+      header_style = sheet.styles.add_style(b: true, bg_color: "DDDDDD", alignment: { horizontal: :center })
+      center_style = sheet.styles.add_style(alignment: { horizontal: :center })
+
+      sheet.add_row [ "รายงานการเช็คชื่อ - #{@course.code} #{@course.name}" ], style: title_style
+      sheet.add_row [ "ปีการศึกษา #{@course.year} ภาคเรียนที่ #{@course.semester}" ]
+      sheet.add_row []
+
+      headers = [ "ลำดับ", "รหัสนักศึกษา" ]
+      @checkin_forms.each do |form|
+        headers << form.title
+      end
+      headers << "รวม"
+
+      sheet.add_row headers, style: header_style
+
+      @enrolled_students.each_with_index do |student, index|
+        row = [ index + 1, student.student_id ]
+        count = 0
+
+        @checkin_forms.each do |form|
+          if form.attendances.exists?(student_id: student.student_id)
+            row << "✓"
+            count += 1
+          else
+            row << "-"
+          end
+        end
+
+        row << count
+
+        sheet.add_row row, style: [ nil, nil ] + Array.new(@checkin_forms.count, center_style) + [ center_style ]
+      end
+
+      sheet.add_row []
+      sheet.add_row [ "จำนวนครั้งเช็คชื่อทั้งหมด: #{@checkin_forms.count} ครั้ง" ]
+      sheet.add_row [ "จำนวนนักศึกษา: #{@enrolled_students.count} คน" ]
+    end
+
+    send_data p.to_stream.read,
+      filename: "attendance_#{@course.code}_#{Date.today}.xlsx",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  end
+
   private
 
   def set_course

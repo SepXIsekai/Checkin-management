@@ -72,3 +72,6 @@ gem "devise"
 gem "roo"
 
 gem "rqrcode"
+
+gem "caxlsx"
+gem "caxlsx_rails"
