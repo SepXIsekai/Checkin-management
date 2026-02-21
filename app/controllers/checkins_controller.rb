@@ -12,13 +12,11 @@ class CheckinsController < ApplicationController
       return
     end
 
-    # เช็คว่านักศึกษามีสิทธิ์เช็คชื่อไหม
     unless @checkin_form.course.enrolled_students.exists?(student_id: current_user.student_id)
       render :not_enrolled
       return
     end
 
-    # เช็คว่าเช็คชื่อไปแล้วหรือยัง
     if @checkin_form.attendances.exists?(student_id: current_user.student_id)
       @attendance = @checkin_form.attendances.find_by(student_id: current_user.student_id)
       render :already_checked
@@ -37,13 +35,11 @@ class CheckinsController < ApplicationController
       return
     end
 
-    # เช็คว่านักศึกษามีสิทธิ์เช็คชื่อไหม
     unless @checkin_form.course.enrolled_students.exists?(student_id: current_user.student_id)
       render :not_enrolled
       return
     end
 
-    # เช็คว่าเช็คชื่อไปแล้วหรือยัง
     if @checkin_form.attendances.exists?(student_id: current_user.student_id)
       redirect_to checkin_success_path(@checkin_form.qr_token)
       return
@@ -51,7 +47,8 @@ class CheckinsController < ApplicationController
 
     @attendance = @checkin_form.attendances.new(
       student_id: current_user.student_id,
-      name: current_user.name
+      name: current_user.name,
+      photo: params[:photo]
     )
 
     if @attendance.save

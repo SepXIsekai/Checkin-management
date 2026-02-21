@@ -49,6 +49,7 @@
       <thead class="bg-slate-50">
         <tr>
           <th class="text-left p-3">ลำดับ</th>
+          <th class="text-left p-3">รูป</th>
           <th class="text-left p-3">รหัสนักศึกษา</th>
           <th class="text-left p-3">ชื่อ</th>
           <th class="text-left p-3">เวลา</th>
@@ -58,6 +59,13 @@
         <% @checkin_form.attendances.order(:checked_at).each_with_index do |attendance, index| %>
           <tr class="border-t">
             <td class="p-3"><%= index + 1 %></td>
+            <td class="p-3">
+              <% if attendance.photo.attached? %>
+                <%= image_tag attendance.photo, class: "w-12 h-12 object-cover rounded-full" %>
+              <% else %>
+                <span class="text-slate-400">-</span>
+              <% end %>
+            </td>
             <td class="p-3"><%= attendance.student_id %></td>
             <td class="p-3"><%= attendance.name %></td>
             <td class="p-3"><%= l(attendance.checked_at, format: :short) %></td>
