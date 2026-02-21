@@ -45,6 +45,19 @@ class CheckinsController < ApplicationController
       return
     end
 
+    # เช็ค location ถ้าเป็น onsite
+    if @checkin_form.onsite?
+      user_lat = params[:latitude].to_f
+      user_lng = params[:longitude].to_f
+
+      unless @checkin_form.within_radius?(user_lat, user_lng)
+        @attendance = @checkin_form.attendances.new
+        @attendance.errors.add(:base, "คุณไม่ได้อยู่ในบริเวณห้องเรียน")
+        render :new, status: :unprocessable_entity
+        return
+      end
+    end
+
     @attendance = @checkin_form.attendances.new(
       student_id: current_user.student_id,
       name: current_user.name,

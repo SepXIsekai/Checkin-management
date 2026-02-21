@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_21_080134) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_21_083831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,6 +62,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_21_080134) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "token_expires_at"
+    t.integer "mode"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.integer "radius"
     t.index ["course_id"], name: "index_checkin_forms_on_course_id"
     t.index ["qr_token"], name: "index_checkin_forms_on_qr_token", unique: true
   end

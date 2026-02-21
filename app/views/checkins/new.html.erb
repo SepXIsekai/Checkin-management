@@ -1,19 +1,26 @@
 <!-- app/views/checkins/new.html.erb -->
-<div class="bg-white rounded shadow p-6 w-full max-w-md">
+<div class="bg-white rounded shadow p-6 w-full max-w-md" data-controller="checkin-location">
   <h1 class="text-2xl font-bold mb-2 text-center">เช็คชื่อ</h1>
   <p class="text-center text-slate-500 mb-6"><%= @course.code %> - <%= @course.name %></p>
-  <p class="text-center text-sm text-slate-400 mb-6"><%= @checkin_form.title %></p>
+  <p class="text-center text-sm text-slate-400 mb-2"><%= @checkin_form.title %></p>
+  <% if @checkin_form.onsite? %>
+    <p class="text-center text-sm text-orange-500 mb-6">📍 ต้องอยู่ในบริเวณห้องเรียน (รัศมี <%= @checkin_form.radius %> เมตร)</p>
+  <% end %>
   <div class="bg-slate-50 rounded p-4 mb-6">
     <p><strong>รหัสนักศึกษา:</strong> <%= current_user.student_id %></p>
     <p><strong>ชื่อ:</strong> <%= current_user.name %></p>
   </div>
-  <%= form_with url: checkin_path(@checkin_form.qr_token), method: :post, multipart: true do |f| %>
+  <%= form_with url: checkin_path(@checkin_form.qr_token), method: :post, multipart: true, data: { checkin_location_target: "form" } do |f| %>
     <% if @attendance.errors.any? %>
       <div class="bg-red-100 text-red-800 p-4 rounded mb-4">
         <% @attendance.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
         <% end %>
       </div>
+    <% end %>
+    <% if @checkin_form.onsite? %>
+      <input type="hidden" name="latitude" data-checkin-location-target="latitude">
+      <input type="hidden" name="longitude" data-checkin-location-target="longitude">
     <% end %>
     <div class="mb-6">
       <label class="block font-semibold mb-2">ถ่ายรูปยืนยัน</label>
@@ -25,6 +32,14 @@
              class="w-full border rounded px-3 py-2">
       <p class="text-sm text-slate-500 mt-1">กรุณาถ่ายรูปหน้าตัวเอง</p>
     </div>
-    <%= f.submit "ยืนยันเช็คชื่อ", class: "w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold" %>
+    <% if @checkin_form.onsite? %>
+      <button type="button" 
+              data-action="click->checkin-location#getLocationAndSubmit"
+        class="w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold">
+        ยืนยันเช็คชื่อ
+      </button>
+    <% else %>
+      <%= f.submit "ยืนยันเช็คชื่อ", class: "w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold" %>
+    <% end %>
   <% end %>
 </div>

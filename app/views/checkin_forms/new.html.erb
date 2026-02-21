@@ -1,8 +1,7 @@
 <!-- app/views/checkin_forms/new.html.erb -->
 <h1 class="text-2xl font-bold mb-4">สร้างฟอร์มเช็คชื่อ - <%= @course.code %></h1>
-
 <div class="bg-white rounded shadow p-6">
-  <%= form_with model: [@course, @checkin_form] do |f| %>
+  <%= form_with model: [@course, @checkin_form], data: { controller: "checkin-form" } do |f| %>
     <% if @checkin_form.errors.any? %>
       <div class="bg-red-100 text-red-800 p-4 rounded mb-4">
         <% @checkin_form.errors.full_messages.each do |msg| %>
@@ -10,17 +9,45 @@
         <% end %>
       </div>
     <% end %>
-
     <div class="mb-4">
       <%= f.label :title, "ชื่อฟอร์ม", class: "block font-semibold mb-1" %>
       <%= f.text_field :title, placeholder: "เช่น เช็คชื่อครั้งที่ 1", class: "w-full border rounded px-3 py-2" %>
     </div>
-
     <div class="mb-4">
-      <%= f.label :expires_at, "หมดเวลา (ไม่บังคับ)", class: "block font-semibold mb-1" %>
-      <%= f.datetime_local_field :expires_at, class: "border rounded px-3 py-2" %>
+      <%= f.label :mode, "รูปแบบ", class: "block font-semibold mb-1" %>
+      <div class="flex gap-4">
+        <label class="flex items-center gap-2">
+          <%= f.radio_button :mode, "online", checked: true, data: { action: "change->checkin-form#toggleMode" } %>
+          <span>Online</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <%= f.radio_button :mode, "onsite", data: { action: "change->checkin-form#toggleMode" } %>
+          <span>Onsite (ตรวจ Location)</span>
+        </label>
+      </div>
     </div>
-
+    <div class="mb-4 hidden" data-checkin-form-target="locationFields">
+      <div class="bg-slate-50 p-4 rounded">
+        <p class="font-semibold mb-2">ตำแหน่งห้องเรียน</p>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <%= f.label :latitude, "Latitude", class: "block text-sm mb-1" %>
+            <%= f.text_field :latitude, placeholder: "13.7563", class: "w-full border rounded px-3 py-2", data: { checkin_form_target: "latitude" } %>
+          </div>
+          <div>
+            <%= f.label :longitude, "Longitude", class: "block text-sm mb-1" %>
+            <%= f.text_field :longitude, placeholder: "100.5018", class: "w-full border rounded px-3 py-2", data: { checkin_form_target: "longitude" } %>
+          </div>
+        </div>
+        <div class="mb-4">
+          <%= f.label :radius, "รัศมี (เมตร)", class: "block text-sm mb-1" %>
+          <%= f.number_field :radius, value: 100, min: 10, max: 1000, class: "w-full border rounded px-3 py-2" %>
+        </div>
+        <button type="button" data-action="click->checkin-form#getCurrentLocation" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          ใช้ตำแหน่งปัจจุบัน
+        </button>
+      </div>
+    </div>
     <div class="flex gap-2">
       <%= f.submit "สร้าง", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer" %>
       <%= link_to "ยกเลิก", course_checkin_forms_path(@course), class: "bg-slate-200 px-4 py-2 rounded hover:bg-slate-300" %>

@@ -65,7 +65,7 @@ class CheckinFormsController < ApplicationController
   end
 
   def checkin_form_params
-    params.require(:checkin_form).permit(:title, :expires_at)
+    params.require(:checkin_form).permit(:title, :mode, :latitude, :longitude, :radius)
   end
 
   def require_teacher
