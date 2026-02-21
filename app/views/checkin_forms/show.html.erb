@@ -6,9 +6,9 @@
        data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>">
     <h2 class="text-lg font-semibold mb-4">QR Code</h2>
     <div class="flex justify-center mb-4" data-qr-refresh-target="qrcode">
-      <%= @checkin_form.qr_code_svg.html_safe %>
+      <%= @checkin_form.qr_code_svg(@host).html_safe %>
     </div>
-    <p class="text-sm text-slate-500 break-all" data-qr-refresh-target="url"><%= @checkin_form.checkin_url %></p>
+    <p class="text-sm text-slate-500 break-all" data-qr-refresh-target="url"><%= @checkin_form.checkin_url(@host) %></p>
     <div class="mt-4 flex justify-center gap-2 flex-wrap">
       <%= link_to "แสดง QR เต็มจอ", fullscreen_course_checkin_form_path(@course, @checkin_form), 
           target: "_blank",

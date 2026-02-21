@@ -1,3 +1,4 @@
+# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_user_location!, if: :storable_location?
@@ -9,14 +10,22 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || if resource.teacher?
-      courses_path
-                                     else
-      root_path
-                                     end
+    stored_location_for(resource) || default_path_for(resource)
+  end
+
+  def after_sign_up_path_for(resource)
+    stored_location_for(resource) || default_path_for(resource)
   end
 
   private
+
+  def default_path_for(resource)
+    if resource.teacher?
+      courses_path
+    else
+      root_path
+    end
+  end
 
   def storable_location?
     request.get? && !devise_controller? && !request.xhr?

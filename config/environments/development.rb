@@ -5,7 +5,7 @@ Rails.application.configure do
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
-
+  config.hosts.clear
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -54,6 +54,12 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  config.hosts = ENV["ALLOWED_HOSTS"]&.split(",") || [
+    "localhost",
+    "127.0.0.1",
+    /.*\.ngrok-free\.app/
+  ]
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

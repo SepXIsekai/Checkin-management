@@ -25,6 +25,7 @@ class CheckinFormsController < ApplicationController
   end
 
   def show
+    @host = request.host_with_port
   end
 
   def destroy
@@ -38,16 +39,18 @@ class CheckinFormsController < ApplicationController
   end
 
   def qr_code
+    host = request.host_with_port
     @checkin_form.refresh_token! if @checkin_form.token_expired?
 
     render json: {
-      svg: @checkin_form.qr_code_svg,
-      url: @checkin_form.checkin_url,
-      expires_in: (@checkin_form.token_expires_at - Time.current).to_i
+      svg: @checkin_form.qr_code_svg(host),
+      url: @checkin_form.checkin_url(host),
+      expires_in: @checkin_form.token_expires_at ? (@checkin_form.token_expires_at - Time.current).to_i : 30
     }
   end
 
   def fullscreen
+    @host = request.host_with_port
     render layout: false
   end
 

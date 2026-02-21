@@ -29,12 +29,13 @@ class CheckinForm < ApplicationRecord
     )
   end
 
-  def checkin_url
-    Rails.application.routes.url_helpers.checkin_url(qr_token, host: "localhost:3000")
+  def checkin_url(host = "localhost:3000")
+    protocol = host.include?("ngrok") ? "https" : "http"
+    "#{protocol}://#{host}/checkin/#{qr_token}"
   end
 
-  def qr_code_svg
-    qrcode = RQRCode::QRCode.new(checkin_url)
+  def qr_code_svg(host = "localhost:3000")
+    qrcode = RQRCode::QRCode.new(checkin_url(host))
     qrcode.as_svg(
       color: "000",
       shape_rendering: "crispEdges",
