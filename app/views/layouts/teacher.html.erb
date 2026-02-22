@@ -27,7 +27,7 @@
             <span>Back</span>
           <% end %>
           <p class="text-sm text-slate-400 mb-2"><%= @course.code %></p>
-          <%= link_to course_path(@course), class: "flex items-center gap-2 cursor-pointer text-[#261ce6] font-semibold block py-3 px-4 rounded-xl mb-2 #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if action_name == 'show'}" do %>
+          <%= link_to course_path(@course), class: "flex items-center gap-2 cursor-pointer text-[#261ce6] font-semibold block py-3 px-4 rounded-xl mb-2 #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if controller_name == 'courses' && action_name == 'show'}" do %>
             <%= image_tag "backoffice/course-detail-icon.svg", class: "w-5 h-5 " %>
             <span>Course Summary</span>
           <% end %>
