@@ -20,8 +20,5 @@
     </div>
     <p class="text-lg text-slate-500 mb-4">Scan เพื่อเช็คชื่อ</p>
     <p class="text-sm text-slate-400" data-qr-refresh-target="url"><%= @checkin_form.checkin_url(@host) %></p>
-    <% if @checkin_form.expires_at %>
-      <p class="mt-8 text-red-500">หมดเวลา: <%= l(@checkin_form.expires_at, format: :long) %></p>
-    <% end %>
   </body>
 </html>
