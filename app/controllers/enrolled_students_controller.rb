@@ -8,7 +8,6 @@ class EnrolledStudentsController < ApplicationController
 
   def index
     @enrolled_students = @course.enrolled_students.order(:student_id)
-
     @attendance_summary = Attendance.joins(:checkin_form).where(checkin_forms: { course_id: @course.id }).group(:student_id).count
   end
 
@@ -18,7 +17,6 @@ class EnrolledStudentsController < ApplicationController
       redirect_to course_enrolled_students_path(@course), notice: "Import นักศึกษาสำเร็จ"
     elsif params[:student_id].present?
       add_single_student
-      redirect_to course_enrolled_students_path(@course), notice: "เพิ่มนักศึกษาสำเร็จ"
     else
       redirect_to course_enrolled_students_path(@course), alert: "กรุณากรอกข้อมูล"
     end
@@ -52,7 +50,6 @@ class EnrolledStudentsController < ApplicationController
     spreadsheet = Roo::Spreadsheet.open(file.path)
     header = spreadsheet.row(1).map { |h| h.to_s.strip.downcase }
 
-    # หา index ของ column student_id
     student_id_index = header.index("student_id") || header.index("รหัสนักศึกษา") || 0
 
     (2..spreadsheet.last_row).each do |i|
@@ -65,6 +62,12 @@ class EnrolledStudentsController < ApplicationController
   end
 
   def add_single_student
-    @course.enrolled_students.find_or_create_by(student_id: params[:student_id].strip)
+    student = @course.enrolled_students.new(student_id: params[:student_id].strip)
+
+    if student.save
+      redirect_to course_enrolled_students_path(@course), notice: "เพิ่มนักศึกษาสำเร็จ"
+    else
+      redirect_to course_enrolled_students_path(@course), alert: student.errors.messages.values.flatten.join(", ")
+    end
   end
 end

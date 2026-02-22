@@ -1,18 +1,15 @@
-<!-- app/views/shared/_flash.html.erb -->
 <div class="fixed top-4 right-4 z-50 space-y-2">
-  <% if notice %>
+  <% flash.each do |type, message| %>
+    <% next if message.blank? %>
+    <% bg_color = case type.to_sym
+                  when :notice, :success then "bg-green-500"
+                  when :alert, :error then "bg-red-500"
+                  else "bg-blue-500"
+                  end %>
     <div data-controller="flash" 
-         class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300">
-      <span>✓</span>
-      <span><%= notice %></span>
-      <button data-action="click->flash#dismiss" class="ml-2 hover:opacity-70">✕</button>
-    </div>
-  <% end %>
-  <% if alert %>
-    <div data-controller="flash" 
-         class="bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300">
-      <span>!</span>
-      <span><%= alert %></span>
+         class="<%= bg_color %> text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300">
+      <span><%= type.to_sym == :notice ? "✓" : "!" %></span>
+      <span><%= message %></span>
       <button data-action="click->flash#dismiss" class="ml-2 hover:opacity-70">✕</button>
     </div>
   <% end %>
