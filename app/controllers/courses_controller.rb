@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
 
   before_action :authenticate_user!
   before_action :require_teacher
-  before_action :set_course, only: %i[show edit update destroy]
+  before_action :set_course, only: %i[show edit update destroy dashboard export_attendance]
 
   def index
     @courses = current_user.teaching_courses
@@ -46,6 +46,62 @@ class CoursesController < ApplicationController
   def destroy
     @course.destroy
     redirect_to courses_path, notice: "ลบวิชาสำเร็จ"
+  end
+
+  def dashboard
+    @checkin_forms = @course.checkin_forms.order(:created_at)
+    @enrolled_students = @course.enrolled_students.order(:student_id)
+  end
+
+  def export_attendance
+    @checkin_forms = @course.checkin_forms.order(:created_at)
+    @enrolled_students = @course.enrolled_students.order(:student_id)
+
+    p = Axlsx::Package.new
+    wb = p.workbook
+
+    wb.add_worksheet(name: "รายงานเช็คชื่อ") do |sheet|
+      title_style = sheet.styles.add_style(b: true, sz: 14)
+      header_style = sheet.styles.add_style(b: true, bg_color: "DDDDDD", alignment: { horizontal: :center })
+
+      sheet.add_row [ "รายงานการเช็คชื่อ - #{@course.code} #{@course.name}" ], style: title_style
+      sheet.add_row [ "ปีการศึกษา #{@course.year} ภาคเรียนที่ #{@course.semester}" ]
+      sheet.add_row []
+
+      headers = [ "ลำดับ", "รหัสนักศึกษา" ]
+      @checkin_forms.each do |form|
+        headers << form.title
+      end
+      headers << "รวม"
+
+      sheet.add_row headers, style: header_style
+
+      @enrolled_students.each_with_index do |student, index|
+        count = @checkin_forms.count { |form| form.attendances.exists?(student_id: student.student_id) }
+
+        row = [ index + 1, student.student_id ]
+
+        @checkin_forms.each do |form|
+          if form.attendances.exists?(student_id: student.student_id)
+            row << 1
+          else
+            row << 0
+          end
+        end
+
+        row << count
+
+        sheet.add_row row
+      end
+
+      sheet.add_row []
+      sheet.add_row [ "จำนวนครั้งเช็คชื่อทั้งหมด: #{@checkin_forms.count} ครั้ง" ]
+      sheet.add_row [ "จำนวนนักศึกษา: #{@enrolled_students.count} คน" ]
+    end
+
+    send_data p.to_stream.read,
+      filename: "attendance_#{@course.code}_#{Date.today}.xlsx",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   end
 
   private

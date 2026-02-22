@@ -1,0 +1,54 @@
+<!-- app/views/courses/dashboard.html.erb -->
+<div class="flex items-center border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+  <div class="flex flex-col items-start">
+    <h1 class="text-xl font-bold">Attendance Dashboard</h1>
+    <p class="text-sm text-gray-400 font-medium"><%= @course.name %> • <%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+  </div>
+</div>
+<div class="m-10">
+  <!-- Stats -->
+  <div class="grid grid-cols-2 gap-6 mb-8">
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-bold text-[#261ce6]"><%= @enrolled_students.count %></p>
+      <p class="text-sm text-slate-500 mt-1">Total Students</p>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-bold text-green-600"><%= @checkin_forms.count %></p>
+      <p class="text-sm text-slate-500 mt-1">Total Sessions</p>
+    </div>
+  </div>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4">
+    <div class="font-bold text-2xl text-black">Attendance Summary</div>
+    <%= link_to export_attendance_course_path(@course, format: :xlsx), 
+        class: "px-5 py-2 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition cursor-pointer" do %>
+      Export to Excel
+    <% end %>
+  </div>
+  <!-- Table -->
+  <div class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden">
+    <% if @enrolled_students.any? %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="bg-[#F9FAFB] border-b border-[#E5E7EB]">
+            <tr>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280]">Student ID</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280] text-center">Attendance Count</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#F3F4F6]">
+            <% @enrolled_students.each_with_index do |student, index| %>
+              <% count = @checkin_forms.count { |form| form.attendances.exists?(student_id: student.student_id) } %>
+              <tr class="hover:bg-[#F9FAFB] transition-colors">
+                <td class="py-4 px-6 text-sm font-bold text-[#111827]"><%= student.student_id %></td>
+                <td class="py-4 px-6 text-center font-bold text-[#111827]"><%= count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="px-6 py-10 text-center text-[#9CA3AF] text-sm">No students enrolled yet</div>
+    <% end %>
+  </div>
+</div>

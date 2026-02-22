@@ -38,6 +38,10 @@
             <%= image_tag "backoffice/session-icon.svg", class: "w-5 h-5 " %>
             <span>Session</span>
           <% end %>
+          <%= link_to dashboard_course_path(@course), class: "flex items-center gap-2 cursor-pointer text-[#261ce6] font-semibold block py-3 px-4 rounded-xl mb-2 #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if action_name == 'dashboard'}" do %>
+            <%= image_tag "backoffice/dashboard-icon.svg", class: "w-5 h-5" %>
+            <span>Dashboard</span>
+          <% end %>
         <% else %>
           <%= link_to courses_path, class: "flex items-center gap-2 text-[#261ce6] font-semibold py-3 px-4 rounded-xl mb-2 transition #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if controller_name == 'courses' && ['index','new'].include?(action_name)}" do %>
             <%= image_tag "backoffice/course-icon.svg", class: "w-5 h-5 " %>
