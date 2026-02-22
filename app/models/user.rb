@@ -11,7 +11,8 @@ class User < ApplicationRecord
   attr_accessor :secret_code
 
   validates :name, presence: true
-  validates :student_id, presence: true, if: :student?
+  validates :student_id, uniqueness: { message: "รหัสนักศึกษานี้มีในระบบแล้ว" }, allow_blank: true
+  validates :student_id, presence: { message: "กรุณากรอกรหัสนักศึกษา" }, if: :student?
 
   validate :verify_secret_code, on: :create
 
