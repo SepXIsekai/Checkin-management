@@ -41,7 +41,7 @@
               <% count = @checkin_forms.count { |form| form.attendances.exists?(student_id: student.student_id) } %>
               <tr class="hover:bg-[#F9FAFB] transition-colors">
                 <td class="py-4 px-6 text-sm font-bold text-[#111827]"><%= student.student_id %></td>
-                <td class="py-4 px-6 text-center font-bold text-[#111827]"><%= count %></td>
+                <td class="py-4 px-6 text-sm text-center font-bold text-[#111827]"><%= count %></td>
               </tr>
             <% end %>
           </tbody>
