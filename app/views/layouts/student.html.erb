@@ -11,9 +11,8 @@
   </head>
   <body class="bg-[#f8fafc] min-h-screen">
     <%= render "shared/flash" %>
-    <!-- Header -->
     <header class="bg-white border-b border-slate-200 px-8 py-4">
-      <div class="flex justify-between items-center max-w-4xl mx-auto">
+      <div class="flex justify-between items-center mx-auto">
         <div>
           <h1 class="text-xl font-bold">Student Portal</h1>
           <p class="text-sm text-slate-400"><%= current_user.name %> (<%= current_user.student_id %>)</p>
@@ -22,7 +21,7 @@
             class: "px-4 py-2 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition cursor-pointer" %>
       </div>
     </header>
-    <main class="max-w-4xl mx-auto p-8">
+    <main class="">
       <%= yield %>
     </main>
   </body>

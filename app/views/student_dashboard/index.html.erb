@@ -1,37 +1,38 @@
-<!-- app/views/student_dashboard/index.html.erb -->
-<h1 class="text-2xl font-bold mb-6">My Attendance</h1>
-<% if @enrolled_courses.any? %>
-  <div class="space-y-4">
-    <% @enrolled_courses.each do |course| %>
-      <% summary = @attendance_summary[course.id] %>
-      <div class="bg-white border border-slate-200 rounded-2xl p-6">
-        <div class="flex justify-between items-start">
-          <div>
-            <h2 class="text-lg font-bold text-[#111827]"><%= course.code %></h2>
-            <p class="text-slate-500"><%= course.name %></p>
-            <p class="text-sm text-slate-400">Year <%= course.year %> • Semester <%= course.semester %></p>
-          </div>
-          <div class="text-right">
-            <p class="text-3xl font-bold text-[#261ce6]"><%= summary[:attended] %></p>
-            <p class="text-sm text-slate-500">of <%= summary[:total] %> sessions</p>
-          </div>
-        </div>
-        <% if summary[:total] > 0 %>
-          <div class="mt-4">
-            <div class="w-full bg-slate-200 rounded-full h-2">
-              <% percentage = (summary[:attended].to_f / summary[:total] * 100).round %>
-              <div class="bg-[#261ce6] h-2 rounded-full" style="width: <%= percentage %>%"></div>
+<div class="m-10">
+  <h1 class="text-2xl font-bold mb-6">My Attendance</h1>
+  <% if @enrolled_courses.any? %>
+    <div class="space-y-4">
+      <% @enrolled_courses.each do |course| %>
+        <% summary = @attendance_summary[course.id] %>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 class="text-lg font-bold text-[#111827]"><%= course.code %></h2>
+              <p class="text-slate-500"><%= course.name %></p>
+              <p class="text-sm text-slate-400">Year <%= course.year %> • Semester <%= course.semester %></p>
             </div>
-            <p class="text-sm text-slate-500 mt-1"><%= percentage %>% attendance</p>
+            <div class="text-right">
+              <p class="text-3xl font-bold text-[#261ce6]"><%= summary[:attended] %></p>
+              <p class="text-sm text-slate-500">of <%= summary[:total] %> sessions</p>
+            </div>
           </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-  <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
-    <p class="text-4xl mb-4">📚</p>
-    <h2 class="text-lg font-bold text-[#111827] mb-2">No Courses Yet</h2>
-    <p class="text-slate-500">You are not enrolled in any courses.</p>
-  </div>
-<% end %>
+          <% if summary[:total] > 0 %>
+            <div class="mt-4">
+              <div class="w-full bg-slate-200 rounded-full h-2">
+                <% percentage = (summary[:attended].to_f / summary[:total] * 100).round %>
+                <div class="bg-[#261ce6] h-2 rounded-full" style="width: <%= percentage %>%"></div>
+              </div>
+              <p class="text-sm text-slate-500 mt-1"><%= percentage %>% attendance</p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+      <p class="text-4xl mb-4">📚</p>
+      <h2 class="text-lg font-bold text-[#111827] mb-2">No Courses Yet</h2>
+      <p class="text-slate-500">You are not enrolled in any courses.</p>
+    </div>
+  <% end %>
+</div>

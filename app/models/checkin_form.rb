@@ -25,7 +25,7 @@ class CheckinForm < ApplicationRecord
   def refresh_token!
     update(
       qr_token: SecureRandom.urlsafe_base64(16),
-      token_expires_at: 30.seconds.from_now
+      token_expires_at: 10.seconds.from_now
     )
   end
 
