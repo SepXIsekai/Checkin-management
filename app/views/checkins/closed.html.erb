@@ -3,9 +3,5 @@
   <div class="text-6xl mb-4">❌</div>
   <h1 class="text-2xl font-bold mb-2 text-red-600">ฟอร์มปิดแล้ว</h1>
   <p class="text-slate-500 mb-4"><%= @course.code %> - <%= @course.name %></p>
-  <% if @checkin_form.expired? %>
-    <p class="text-slate-500">ฟอร์มนี้หมดเวลาแล้ว</p>
-  <% else %>
-    <p class="text-slate-500">อาจารย์ปิดฟอร์มแล้ว</p>
-  <% end %>
+  <p class="text-slate-500">อาจารย์ปิดฟอร์มแล้ว</p>
 </div>

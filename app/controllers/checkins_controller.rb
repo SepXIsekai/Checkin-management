@@ -7,6 +7,11 @@ class CheckinsController < ApplicationController
   before_action :set_checkin_form
 
   def new
+    unless @checkin_form
+      render :expired
+      return
+    end
+
     if !@checkin_form.open?
       render :closed
       return
@@ -19,7 +24,7 @@ class CheckinsController < ApplicationController
 
     if @checkin_form.attendances.exists?(student_id: current_user.student_id)
       @attendance = @checkin_form.attendances.find_by(student_id: current_user.student_id)
-      render :already_checked
+      render :success
       return
     end
 
@@ -30,6 +35,11 @@ class CheckinsController < ApplicationController
   end
 
   def create
+    unless @checkin_form
+      render :expired
+      return
+    end
+
     if !@checkin_form.open?
       render :closed
       return
@@ -41,11 +51,10 @@ class CheckinsController < ApplicationController
     end
 
     if @checkin_form.attendances.exists?(student_id: current_user.student_id)
-      redirect_to checkin_success_path(@checkin_form.qr_token)
+      redirect_to checkin_path(@checkin_form.qr_token)
       return
     end
 
-    # เช็ค location ถ้าเป็น onsite
     if @checkin_form.onsite?
       user_lat = params[:latitude].to_f
       user_lng = params[:longitude].to_f
@@ -65,21 +74,21 @@ class CheckinsController < ApplicationController
     )
 
     if @attendance.save
-      redirect_to checkin_success_path(@checkin_form.qr_token)
+      redirect_to checkin_path(@checkin_form.qr_token)
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def success
-    @attendance = @checkin_form.attendances.find_by(student_id: current_user.student_id)
-  end
-
   private
 
   def set_checkin_form
-    @checkin_form = CheckinForm.find_by!(qr_token: params[:token])
-    @course = @checkin_form.course
+    if params[:checkin_form_id].present?
+      @checkin_form = CheckinForm.find_by(id: params[:checkin_form_id])
+    else
+      @checkin_form = CheckinForm.find_by(qr_token: params[:token])
+    end
+    @course = @checkin_form&.course
   end
 
   def require_student

@@ -18,28 +18,23 @@
         <% end %>
       </div>
     <% end %>
+    <!-- เพิ่ม hidden field สำหรับ id -->
+    <%= hidden_field_tag :checkin_form_id, @checkin_form.id %>
     <% if @checkin_form.onsite? %>
-      <input type="hidden" name="latitude" data-checkin-location-target="latitude">
-      <input type="hidden" name="longitude" data-checkin-location-target="longitude">
+      <%= hidden_field_tag :latitude, nil, data: { checkin_location_target: "latitude" } %>
+      <%= hidden_field_tag :longitude, nil, data: { checkin_location_target: "longitude" } %>
     <% end %>
     <div class="mb-6">
       <label class="block font-semibold mb-2">ถ่ายรูปยืนยัน</label>
-      <input type="file" 
-             name="photo" 
-             accept="image/*" 
-             capture="user"
-             required
-             class="w-full border rounded px-3 py-2">
+      <%= file_field_tag :photo, accept: "image/*", capture: "user", required: true, class: "w-full border rounded px-3 py-2" %>
       <p class="text-sm text-slate-500 mt-1">กรุณาถ่ายรูปหน้าตัวเอง</p>
     </div>
     <% if @checkin_form.onsite? %>
-      <button type="button" 
-              data-action="click->checkin-location#getLocationAndSubmit"
-        class="w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold">
+      <%= button_tag type: "button", data: { action: "click->checkin-location#getLocationAndSubmit" }, class: "w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold" do %>
         ยืนยันเช็คชื่อ
-      </button>
+      <% end %>
     <% else %>
-      <%= f.submit "ยืนยันเช็คชื่อ", class: "w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold" %>
+      <%= submit_tag "ยืนยันเช็คชื่อ", class: "w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 cursor-pointer font-semibold" %>
     <% end %>
   <% end %>
 </div>

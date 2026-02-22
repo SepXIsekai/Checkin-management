@@ -19,16 +19,15 @@ Rails.application.routes.draw do
   # Student Dashboard
   get "student/dashboard", to: "student_dashboard#index", as: :student_dashboard
 
-  # Checkin
+  # Checkin - URL เดียว
   get "checkin/:token", to: "checkins#new", as: :checkin
   post "checkin/:token", to: "checkins#create"
-  get "checkin/:token/success", to: "checkins#success", as: :checkin_success
+  # ลบ success route ออก
 
   devise_for :users
 
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Root ตาม role
   authenticated :user, ->(u) { u.teacher? } do
     root "courses#index", as: :teacher_root
   end
@@ -37,7 +36,6 @@ Rails.application.routes.draw do
     root "student_dashboard#index", as: :student_root
   end
 
-  # ยังไม่ login ไปหน้า login
   devise_scope :user do
     root "devise/sessions#new"
   end
