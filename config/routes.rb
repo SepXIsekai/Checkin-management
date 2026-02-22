@@ -1,3 +1,4 @@
+# config/routes.rb
 Rails.application.routes.draw do
   resources :courses do
     resources :enrolled_students, only: [ :index, :create, :destroy ]
@@ -15,23 +16,29 @@ Rails.application.routes.draw do
     end
   end
 
+  # Student Dashboard
+  get "student/dashboard", to: "student_dashboard#index", as: :student_dashboard
+
+  # Checkin
   get "checkin/:token", to: "checkins#new", as: :checkin
   post "checkin/:token", to: "checkins#create"
   get "checkin/:token/success", to: "checkins#success", as: :checkin_success
 
-  get "pages/home"
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-  root "pages#home"
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Root ตาม role
+  authenticated :user, ->(u) { u.teacher? } do
+    root "courses#index", as: :teacher_root
+  end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  authenticated :user, ->(u) { u.student? } do
+    root "student_dashboard#index", as: :student_root
+  end
+
+  # ยังไม่ login ไปหน้า login
+  devise_scope :user do
+    root "devise/sessions#new"
+  end
 end

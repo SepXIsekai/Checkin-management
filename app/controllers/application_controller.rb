@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     if resource.teacher?
       courses_path
     else
-      root_path
+      student_dashboard_path
     end
   end
 
