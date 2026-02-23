@@ -28,13 +28,7 @@
                   method: :post,
                   multipart: true,
                   data: { checkin_location_target: "form" } do |f| %>
-      <% if @attendance.errors.any? %>
-        <div class="bg-red-100 text-red-700 text-sm rounded-xl p-4 mb-6">
-          <% @attendance.errors.full_messages.each do |msg| %>
-            <p><%= msg %></p>
-          <% end %>
-        </div>
-      <% end %>
+      <%# Top-level attendance error summary removed. Per-field errors are shown inline. %>
       <%= hidden_field_tag :checkin_form_id, @checkin_form.id %>
       <% if @checkin_form.onsite? %>
         <%= hidden_field_tag :latitude, nil,

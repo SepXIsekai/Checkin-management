@@ -1,10 +1,4 @@
-<% if form.object.errors.any? %>
-  <div class="mb-6 text-sm text-red-600">
-    <% form.object.errors.full_messages.each do |msg| %>
-      <p><%= msg %></p>
-    <% end %>
-  </div>
-<% end %>
+<%# Top-level course error summary removed. Per-field errors are shown inline by `form_input`. %>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
   <%= form_input form, :code, label: "Course Code", placeholder: "e.g. 51XXXX" %>
   <%= form_input form, :name, label: "Course Name", placeholder: "e.g. Web Application Development" %>

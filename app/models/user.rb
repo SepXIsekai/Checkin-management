@@ -11,8 +11,8 @@ class User < ApplicationRecord
   attr_accessor :secret_code
 
   validates :name, presence: true
-  validates :student_id, uniqueness: { message: "รหัสนักศึกษานี้มีในระบบแล้ว" }, allow_blank: true
-  validates :student_id, presence: { message: "กรุณากรอกรหัสนักศึกษา" }, if: :student?
+  validates :student_id, uniqueness: { message: "This student ID is already registered." }, allow_blank: true
+  validates :student_id, presence: { message: "Student ID is required." }, if: :student?
 
   validate :verify_secret_code, on: :create
 
@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   def verify_secret_code
     if teacher? && secret_code != "ONLYTEACHERCANREGISTER"
-      errors.add(:secret_code, "รหัสอาจารย์ไม่ถูกต้อง")
+      errors.add(:secret_code, "The instructor ID is incorrect.")
     end
   end
 end

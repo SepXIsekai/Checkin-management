@@ -18,13 +18,7 @@
   <div class="rounded-2xl border border-slate-200 bg-white p-6">
     <%= form_with model: [@course, @checkin_form],
       data: { controller: "checkin-form" } do |f| %>
-      <% if @checkin_form.errors.any? %>
-        <div class="bg-red-100 text-red-800 p-4 rounded mb-4">
-          <% @checkin_form.errors.full_messages.each do |msg| %>
-            <p><%= msg %></p>
-          <% end %>
-        </div>
-      <% end %>
+      <%# Top-level checkin form error summary removed. Per-field errors are shown inline. %>
       <div class="mb-4">
         <%= form_input(f, :title,
         label: "Form Title",

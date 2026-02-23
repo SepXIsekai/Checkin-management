@@ -14,23 +14,23 @@ class EnrolledStudentsController < ApplicationController
   def create
     if params[:file].present?
       import_from_file(params[:file])
-      redirect_to course_enrolled_students_path(@course), notice: "Import นักศึกษาสำเร็จ"
+      redirect_to course_enrolled_students_path(@course), notice: "Students imported successfully"
     elsif params[:student_id].present?
       add_single_student
     else
-      redirect_to course_enrolled_students_path(@course), alert: "กรุณากรอกข้อมูล"
+      redirect_to course_enrolled_students_path(@course), alert: "Please provide data"
     end
   end
 
   def destroy
     @enrolled_student = @course.enrolled_students.find(params[:id])
     @enrolled_student.destroy
-    redirect_to course_enrolled_students_path(@course), notice: "ลบนักศึกษาสำเร็จ"
+    redirect_to course_enrolled_students_path(@course), notice: "Student removed successfully"
   end
 
   def destroy_all
     @course.enrolled_students.destroy_all
-    redirect_to course_enrolled_students_path(@course), notice: "ลบนักศึกษาทั้งหมดสำเร็จ"
+    redirect_to course_enrolled_students_path(@course), notice: "All students removed successfully"
   end
 
   private
@@ -42,7 +42,7 @@ class EnrolledStudentsController < ApplicationController
 
   def require_teacher
     unless current_user.teacher?
-      redirect_to root_path, alert: "เฉพาะอาจารย์เท่านั้น"
+      redirect_to root_path, alert: "Teachers only"
     end
   end
 
@@ -65,7 +65,7 @@ class EnrolledStudentsController < ApplicationController
     student = @course.enrolled_students.new(student_id: params[:student_id].strip)
 
     if student.save
-      redirect_to course_enrolled_students_path(@course), notice: "เพิ่มนักศึกษาสำเร็จ"
+      redirect_to course_enrolled_students_path(@course), notice: "Student added successfully"
     else
       redirect_to course_enrolled_students_path(@course), alert: student.errors.messages.values.flatten.join(", ")
     end

@@ -18,7 +18,7 @@ class CheckinFormsController < ApplicationController
     @checkin_form = @course.checkin_forms.new(checkin_form_params)
 
     if @checkin_form.save
-      redirect_to course_checkin_form_path(@course, @checkin_form), notice: "สร้างฟอร์มเช็คชื่อสำเร็จ"
+      redirect_to course_checkin_form_path(@course, @checkin_form), notice: "Check-in form created successfully"
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,12 +30,12 @@ class CheckinFormsController < ApplicationController
 
   def destroy
     @checkin_form.destroy
-    redirect_to course_checkin_forms_path(@course), notice: "ลบฟอร์มเช็คชื่อสำเร็จ"
+    redirect_to course_checkin_forms_path(@course), notice: "Check-in form deleted successfully"
   end
 
   def toggle
     @checkin_form.update(active: !@checkin_form.active)
-    redirect_to course_checkin_form_path(@course, @checkin_form), notice: "อัพเดทสถานะสำเร็จ"
+    redirect_to course_checkin_form_path(@course, @checkin_form), notice: "Status updated successfully"
   end
 
   def qr_code
@@ -70,7 +70,7 @@ class CheckinFormsController < ApplicationController
 
   def require_teacher
     unless current_user.teacher?
-      redirect_to root_path, alert: "เฉพาะอาจารย์เท่านั้น"
+      redirect_to root_path, alert: "Teachers only"
     end
   end
 end

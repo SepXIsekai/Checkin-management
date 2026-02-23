@@ -29,7 +29,7 @@ class CoursesController < ApplicationController
       if @course.teachers.empty?
         @course.teachers << current_user
       end
-      redirect_to courses_path, notice: "สร้างวิชาสำเร็จ"
+      redirect_to courses_path, notice: "Course created successfully"
     else
       render :new, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update(course_params)
-      redirect_to courses_path, notice: "แก้ไขวิชาสำเร็จ"
+      redirect_to courses_path, notice: "Course updated successfully"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -45,7 +45,7 @@ class CoursesController < ApplicationController
 
   def destroy
     @course.destroy
-    redirect_to courses_path, notice: "ลบวิชาสำเร็จ"
+    redirect_to courses_path, notice: "Course deleted successfully"
   end
 
   def dashboard
@@ -117,7 +117,7 @@ class CoursesController < ApplicationController
 
   def require_teacher
     unless current_user.teacher?
-      redirect_to root_path, alert: "เฉพาะอาจารย์เท่านั้น"
+      redirect_to root_path, alert: "Teachers only"
     end
   end
 end

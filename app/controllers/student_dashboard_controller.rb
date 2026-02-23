@@ -25,7 +25,7 @@ class StudentDashboardController < ApplicationController
 
   def require_student
     unless current_user.student?
-      redirect_to root_path, alert: "เฉพาะนักศึกษาเท่านั้น"
+      redirect_to root_path, alert: "Students only"
     end
   end
 end
