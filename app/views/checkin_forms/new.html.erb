@@ -52,7 +52,7 @@
               "Latitude",
               class: "pb-2 text-sm font-medium text-[#111118]" %>
               <%= f.text_field :latitude,
-              readonly: true,
+              readonly: false,
               placeholder: "13.7563",
               data: { checkin_form_target: "latitude" },
               class: "h-12 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#261ce6]" %>
@@ -62,7 +62,7 @@
               "Longitude",
               class: "pb-2 text-sm font-medium text-[#111118]" %>
               <%= f.text_field :longitude,
-              readonly: true,
+              readonly: false,
               placeholder: "100.5018",
               data: { checkin_form_target: "longitude" },
               class: "h-12 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#261ce6]" %>
