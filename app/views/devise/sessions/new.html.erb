@@ -31,15 +31,11 @@
         <div class="flex flex-col gap-2">
           <%= f.label :email, class: "text-slate-800 text-sm font-medium" %>
           <div class="relative">
-            <%= image_tag "login-register-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition"%>
+            <%= image_tag "login-register-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
             <%= f.email_field :email, placeholder: "Enter Email", class: "w-full rounded-lg border border-slate-300 bg-slate-50  h-11 sm:h-12 pl-10 pr-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#261ce6] transition" %>
           </div>
         </div>
         <div class="flex flex-col gap-2 pt-4">
-          <div class="flex justify-between items-center">
-            <%= f.label :password, class: "text-slate-800 text-sm font-medium" %>
-            <%= link_to "Forgot?", new_password_path(resource_name), class: "text-[#261ce6] font-semibold hover:underline text-sm font-medium" %>
-          </div>
           <div class="relative group">
             <%= image_tag "login-register-page/lock-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
             <%= f.password_field :password, placeholder: "••••••••", class: "w-full rounded-lg border border-slate-300 bg-slate-50 h-11 sm:h-12 pl-10 pr-10 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#261ce6] transition" %>
