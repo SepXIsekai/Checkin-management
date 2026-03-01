@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         patch :toggle
         get :qr_code
         get :fullscreen
+        get :attendances
       end
     end
     member do

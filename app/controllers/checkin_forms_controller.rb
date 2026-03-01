@@ -4,7 +4,7 @@ class CheckinFormsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_teacher
   before_action :set_course
-  before_action :set_checkin_form, only: [ :show, :destroy, :toggle, :qr_code, :fullscreen ]
+  before_action :set_checkin_form, only: [ :show, :destroy, :toggle, :qr_code, :fullscreen, :attendances ]
 
   def index
     @checkin_forms = @course.checkin_forms.order(created_at: :desc)
@@ -52,6 +52,21 @@ class CheckinFormsController < ApplicationController
   def fullscreen
     @host = request.host_with_port
     render layout: false
+  end
+
+  def attendances
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update("attendance_count",
+            partial: "checkin_forms/attendance_count",
+            locals: { checkin_form: @checkin_form }),
+          turbo_stream.update("attendances_list",
+            partial: "checkin_forms/attendances_list",
+            locals: { checkin_form: @checkin_form })
+        ]
+      end
+    end
   end
 
   private
