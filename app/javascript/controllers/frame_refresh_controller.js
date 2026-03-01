@@ -14,7 +14,13 @@ export default class extends Controller {
   }
 
   disconnect() {
-    clearInterval(this.timer);
+    this.stopRefreshing();
+  }
+
+  stopRefreshing() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   refresh() {
@@ -23,10 +29,20 @@ export default class extends Controller {
         Accept: "text/vnd.turbo-stream.html",
       },
     })
-      .then((response) => response.text())
-      .then((html) => {
-        Turbo.renderStreamMessage(html);
+      .then((response) => {
+        if (!response.ok) {
+          this.stopRefreshing();
+          return;
+        }
+        return response.text();
       })
-      .catch(() => {});
+      .then((html) => {
+        if (html) {
+          Turbo.renderStreamMessage(html);
+        }
+      })
+      .catch(() => {
+        this.stopRefreshing();
+      });
   }
 }

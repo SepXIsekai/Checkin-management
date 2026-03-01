@@ -40,4 +40,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     root "devise/sessions#new"
   end
+
+  match "*unmatched", to: "application#route_not_found", via: :all
 end
