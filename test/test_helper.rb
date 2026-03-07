@@ -11,6 +11,17 @@ SimpleCov.formatters = [
 SimpleCov.command_name "Minitest"
 SimpleCov.start "rails" do
   enable_coverage :branch
+
+  # Skip jobs และ mailers
+  add_filter "/app/jobs/"
+  add_filter "/app/mailers/"
+  add_filter "/app/channels/"
+
+  # Skip อื่นๆ ที่ไม่ต้องการ test
+  add_filter "/config/"
+  add_filter "/db/"
+  add_filter "/vendor/"
+  add_filter "/test/"
 end
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
