@@ -1,26 +1,27 @@
 
-<div class="flex justify-center pt-20 px-4 bg-[#f8fafc]">
-  <div class="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 text-center">
-    <div class="flex justify-center mb-5">
+<div class="flex justify-center pt-20 px-4 bg-[#f8fafc]" data-testid="not-enrolled-page">
+  <div class="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 text-center" data-testid="not-enrolled-container">
+    <div class="flex justify-center mb-5" data-testid="error-icon">
       <div class="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
         <span class="text-red-600 text-2xl">
            <%= image_tag "backoffice/stop-red-icon.svg", class: "w-7 h-7" %>
         </span>
       </div>
     </div>
-    <h1 class="text-xl font-semibold text-slate-900 mb-2">
+    <h1 class="text-xl font-semibold text-slate-900 mb-2" data-testid="not-enrolled-title">
       Not Authorized
     </h1>
-    <p class="text-slate-500 text-sm mb-4">
+    <p class="text-slate-500 text-sm mb-4" data-testid="course-info">
       <span class="font-medium"><%= @course.code %></span><br>
       <%= @course.name %>
     </p>
-    <p class="text-slate-600 text-sm mb-6">
-      Student ID <span class="font-medium"><%= current_user.student_id %></span>
+    <p class="text-slate-600 text-sm mb-6" data-testid="not-enrolled-message">
+      Student ID <span class="font-medium" data-testid="student-id"><%= current_user.student_id %></span>
       is not enrolled in this course.
     </p>
     <%= link_to "Back to Home",
       student_dashboard_path,
+      data: { testid: "back-to-home-btn" },
       class: "w-full inline-flex items-center justify-center bg-[#261ce6] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#1a14a3] transition active:scale-[0.98]" %>
   </div>
 </div>

@@ -1,27 +1,27 @@
 <%# Top-level course error summary removed. Per-field errors are shown inline by `form_input`. %>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <%= form_input form, :code, label: "Course Code", placeholder: "e.g. 51XXXX" %>
-  <%= form_input form, :name, label: "Course Name", placeholder: "e.g. Web Application Development" %>
-  <%= form_input form, :year, label: "Year", type: :number, placeholder: "2025" %>
-  <%= form_select form, :semester, label: "Semester", options: [[1,1],[2,2],["Summer",3]] %>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-testid="course-fields">
+  <%= form_input form, :code, label: "Course Code", placeholder: "e.g. 51XXXX", data_testid: "course-code-input" %>
+  <%= form_input form, :name, label: "Course Name", placeholder: "e.g. Web Application Development", data_testid: "course-name-input" %>
+  <%= form_input form, :year, label: "Year", type: :number, placeholder: "2025", data_testid: "course-year-input" %>
+  <%= form_select form, :semester, label: "Semester", options: [[1,1],[2,2],["Summer",3]], data_testid: "course-semester-select" %>
 </div>
-<div class="mt-6">
+<div class="mt-6" data-testid="instructors-section">
   <div class="flex items-center justify-between mb-2">
-    <h3 class="text-base font-semibold text-[#111118]">Instructor</h3>
-    <button type="button" data-action="nested-form#add" class="flex items-center p-2 gap-1 rounded-lg text-[#261ce6] bg-[#261ce6]/10 hover:bg-[#261ce6]/5 transition font-medium text-sm cursor-pointer">
+    <h3 class="text-base font-semibold text-[#111118]" data-testid="instructors-title">Instructor</h3>
+    <button type="button" data-action="nested-form#add" data-testid="add-instructor-btn" class="flex items-center p-2 gap-1 rounded-lg text-[#261ce6] bg-[#261ce6]/10 hover:bg-[#261ce6]/5 transition font-medium text-sm cursor-pointer">
       <%= image_tag "backoffice/add-icon-blue.svg", class: "w-5 h-5" %>
       Add Instructor
     </button>
   </div>
-  <div data-nested-form-target="container" class="space-y-4">
+  <div data-nested-form-target="container" class="space-y-4" data-testid="instructors-list">
     <%= form.fields_for :course_teachers do |ct| %>
-      <div class="nested-row flex items-center gap-3">
+      <div class="nested-row flex items-center gap-3" data-testid="instructor-row">
         <%= ct.hidden_field :id %>
         <%= ct.hidden_field :_destroy %>
         <%= ct.select :user_id,
-            User.teacher.pluck(:name, :id), { prompt: "Select Instructor" }, { class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm transition focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] #{ct.object.user_id.present? ? 'text-[#111118]' : 'text-[#636388]'} appearance-none", data: { action: "change->nested-form#change" }
+            User.teacher.pluck(:name, :id), { prompt: "Select Instructor" }, { class: "w-full h-12 sm:h-14 rounded-lg border border-[#dcdce5] bg-white px-4 text-sm transition focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] #{ct.object.user_id.present? ? 'text-[#111118]' : 'text-[#636388]'} appearance-none", data: { action: "change->nested-form#change", testid: "instructor-select" }
             } %>
-        <button type="button" data-action="nested-form#remove" class="h-12 sm:h-14 w-12 sm:w-14 flex items-center justify-center rounded-lg border border-[#dcdce5] bg-white text-slate-200 hover:bg-red-50 hover:border-red-200 transition group cursor-pointer">
+        <button type="button" data-action="nested-form#remove" data-testid="remove-instructor-btn" class="h-12 sm:h-14 w-12 sm:w-14 flex items-center justify-center rounded-lg border border-[#dcdce5] bg-white text-slate-200 hover:bg-red-50 hover:border-red-200 transition group cursor-pointer">
           <%= image_tag "backoffice/delete-icon.svg", class: "w-5 h-5 opacity-40 group-hover:opacity-100 transition" %>
         </button>
       </div>

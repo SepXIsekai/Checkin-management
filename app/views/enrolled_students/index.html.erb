@@ -1,37 +1,38 @@
 <!-- app/views/enrolled_students/index.html.erb -->
-<div class="flex items-center border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+<div class="flex items-center border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md" data-testid="enrolled-students-header">
   <div class="flex flex-col items-start">
-    <h1 class="text-xl font-bold">Students Details</h1>
-    <p class="text-sm text-gray-400 font-medium"><%= @course.name %> • <%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+    <h1 class="text-xl font-bold" data-testid="page-title">Students Details</h1>
+    <p class="text-sm text-gray-400 font-medium" data-testid="course-info"><%= @course.name %> • <%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
   </div>
 </div>
 <div class="m-10">
   <div class="mb-4">
-    <div class="font-bold text-2xl text-black mb-1">Import Students</div>
-    <div class="text-sm text-slate-500">Manage your enrolled students in your course for this semester.</div>
+    <div class="font-bold text-2xl text-black mb-1" data-testid="import-section-title">Import Students</div>
+    <div class="text-sm text-slate-500" data-testid="import-section-description">Manage your enrolled students in your course for this semester.</div>
   </div>
-  <div class="bg-white border border-slate-200 rounded-3xl p-8 mb-8">
+  <div class="bg-white border border-slate-200 rounded-3xl p-8 mb-8" data-testid="import-section">
     <%= form_with url: course_enrolled_students_path(@course),
       method: :post,
       local: true,
       multipart: true,
-      data: { controller: "file-upload", turbo: false },
+      data: { controller: "file-upload", turbo: false, testid: "import-form" },
       class: "mb-10" do |f| %>
       <div class="flex items-center justify-between mb-3">
         <p class="text-sm font-bold uppercase tracking-wider text-slate-500">Import from File</p>
         <%= f.submit "Import",
-        data: { file_upload_target: "submit" },
+        data: { file_upload_target: "submit", testid: "import-submit-btn" },
         disabled: true,
         class: "px-5 py-2 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed enabled:cursor-pointer" %>
       </div>
       <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-[#261ce6]/30 rounded-2xl cursor-pointer hover:bg-[#261ce6]/5 transition"
-         data-file-upload-target="dropzone">
-        <div class="flex flex-col items-center justify-center text-center" data-file-upload-target="placeholder">
+         data-file-upload-target="dropzone"
+         data-testid="file-upload-zone">
+        <div class="flex flex-col items-center justify-center text-center" data-file-upload-target="placeholder" data-testid="upload-placeholder">
           <%= image_tag "backoffice/upload-icon.svg", class: "w-6 h-6 mb-2" %>
           <p class="text-sm font-semibold text-[#111118]">Click to upload</p>
           <p class="text-xs text-gray-400 mt-1">.xlsx, .xls, .csv</p>
         </div>
-        <div class="hidden items-center gap-2 text-sm font-medium text-[#261ce6]" data-file-upload-target="filename">
+        <div class="hidden items-center gap-2 text-sm font-medium text-[#261ce6]" data-file-upload-target="filename" data-testid="uploaded-filename">
           <%= image_tag "backoffice/file-icon.svg", class: "w-5 h-5" %>
           <span data-file-upload-target="filenameText"></span>
         </div>
@@ -40,7 +41,8 @@
         class: "hidden",
         data: {
           action: "change->file-upload#select",
-          file_upload_target: "input"
+          file_upload_target: "input",
+          testid: "file-input"
         } %>
       </label>
       <p class="text-xs text-slate-500 mt-3">
@@ -48,51 +50,54 @@
       </p>
     <% end %>
     <div class="border-t border-slate-100 my-8"></div>
-    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Add one by one</h3>
+    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4" data-testid="manual-add-title">Add one by one</h3>
     <%= form_with url: course_enrolled_students_path(@course),
         method: :post,
         local: true,
+        data: { testid: "manual-add-form" },
         class: "flex flex-col sm:flex-row gap-4" do |f| %>
       <%= f.text_field :student_id,
           placeholder: "Student ID",
+          data: { testid: "student-id-input" },
           class: "flex-1 h-12 rounded-xl border border-[#dcdce5] px-4 text-sm text-[#111118] focus:outline-none focus:ring-2 focus:ring-[#261ce6] focus:border-[#261ce6] transition" %>
       <%= f.submit "Add",
+          data: { testid: "add-student-btn" },
           class: "px-6 py-3 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-xl transition-all cursor-pointer" %>
     <% end %>
   </div>
   <div class="flex justify-between items-center mb-4">
-    <div class="font-bold text-2xl text-black">Students List (<%= @enrolled_students.count %>)</div>
+    <div class="font-bold text-2xl text-black" data-testid="students-list-title">Students List (<span data-testid="total-students"><%= @enrolled_students.count %></span>)</div>
     <div class="flex items-center gap-3">
       <% if @enrolled_students.any? %>
         <%= button_to "Delete All",
         clear_enrolled_students_course_path(@course),
         method: :delete,
-        data: { turbo_confirm: "ยืนยันการลบนักศึกษาทั้งหมด?" },
+        data: { turbo_confirm: "ยืนยันการลบนักศึกษาทั้งหมด?", testid: "delete-all-btn" },
         class: "px-5 py-2 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-sm font-semibold rounded-lg transition cursor-pointer" %>
       <% end %>
     </div>
   </div>
-  <div class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden mb-8">
+  <div class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden mb-8" data-testid="students-table">
     <% if @enrolled_students.any? %>
       <div class="overflow-x-auto">
         <table class="w-full text-left">
           <thead class="bg-[#F9FAFB] border-b border-[#E5E7EB]">
             <tr>
-              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280]">NO</th>
-              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280]">Student ID</th>
-              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280] text-right">Manage</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280]" data-testid="header-no">NO</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280]" data-testid="header-student-id">Student ID</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#6B7280] text-right" data-testid="header-manage">Manage</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#F3F4F6]">
             <% @enrolled_students.each_with_index do |student, index| %>
-              <tr class="hover:bg-[#F9FAFB] transition-colors">
-                <td class="py-4 px-6 text-sm font-semibold text-[#6B7280]"><%= index + 1 %></td>
-                <td class="py-4 px-6 text-sm font-bold text-[#111827]"><%= student.student_id %></td>
+              <tr class="hover:bg-[#F9FAFB] transition-colors" data-testid="student-row-#{student.student_id}">
+                <td class="py-4 px-6 text-sm font-semibold text-[#6B7280]" data-testid="student-no"><%= index + 1 %></td>
+                <td class="py-4 px-6 text-sm font-bold text-[#111827]" data-testid="student-id"><%= student.student_id %></td>
                 <td class="py-4 px-6 text-right">
                   <%= button_to "Delete",
                     course_enrolled_student_path(@course, student),
                     method: :delete,
-                    data: { turbo_confirm: "ยืนยันการลบ?" },
+                    data: { turbo_confirm: "ยืนยันการลบ?", testid: "delete-student-btn" },
                     class: "px-3 py-1 bg-[#FEE2E2] text-[#DC2626] text-[11px] font-bold rounded-full border border-[#FECACA] hover:bg-[#FCA5A5] transition" %>
                 </td>
               </tr>
@@ -101,7 +106,7 @@
         </table>
       </div>
     <% else %>
-      <div class="px-6 py-10 text-center text-[#9CA3AF] text-sm">No students available</div>
+      <div class="px-6 py-10 text-center text-[#9CA3AF] text-sm" data-testid="empty-students">No students available</div>
     <% end %>
   </div>
 </div>

@@ -1,6 +1,7 @@
-<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
-  <h1 class="text-xl font-bold">Manage Courses</h1>
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md" data-testid="courses-header">
+  <h1 class="text-xl font-bold" data-testid="page-title">Manage Courses</h1>
   <%= link_to new_course_path,
+      data: { testid: "create-course-btn" },
       class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" do %>
     <%= image_tag "backoffice/add-icon-white.svg", class: "w-5 h-5" %>
     Create New Course
@@ -9,30 +10,30 @@
 <div class="m-12">
   <div class="flex justify-between items-baseline mb-8">
     <div>
-      <div class="font-bold text-2xl text-black mb-1">
+      <div class="font-bold text-2xl text-black mb-1" data-testid="section-title">
         Current Course
       </div>
-      <div class="text-sm text-slate-500">
+      <div class="text-sm text-slate-500" data-testid="section-description">
         Manage your active classes for this semester.
       </div>
     </div>
-    <div class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium shadow-sm">
+    <div class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium shadow-sm" data-testid="courses-count">
       <span class="text-[#261ce6] font-bold"><%= @courses.count %></span> Courses active
     </div>
   </div>
   <div class="grid grid-cols-2 gap-10">
     <% @courses.each do |course| %>
-      <div class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+      <div class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-testid="course-card-#{course.id}">
         <div>
           <div class="flex items-center gap-4 mb-6">
             <div class="flex size-14  items-center justify-center rounded-2xl bg-[#261ce6]/10 text-[#261ce6]">
               <%= image_tag "backoffice/course-summary-icon.svg", class: "w-6 h-6 " %>
             </div>
             <div>
-              <p class="text-2xl font-semibold text-slate-900 group-hover:text-[#261ce6] transition-colors">
+              <p class="text-2xl font-semibold text-slate-900 group-hover:text-[#261ce6] transition-colors" data-testid="course-name">
                 <%= course.name %>
               </p>
-              <div class="flex items-center gap-2 text-slate-500 text-sm mt-1">
+              <div class="flex items-center gap-2 text-slate-500 text-sm mt-1" data-testid="course-info">
                 <span><%= course.code %></span>
                 <span>•</span>
                 <span><%= course.year %>/<%= course.semester %></span>
@@ -40,12 +41,12 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-3 mt-4">
-          <%= link_to edit_course_path(course), class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-all" do %>
+        <div class="flex gap-3 mt-4" data-testid="course-actions">
+          <%= link_to edit_course_path(course), data: { testid: "edit-course-btn" }, class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-all" do %>
             <%= image_tag "backoffice/edit-icon.svg", class: "w-5 h-5" %>
             <span>Edit</span>
           <% end %>
-          <%= link_to course_path(course), class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-[#261ce6] hover:bg-[#1a14a3] text-white rounded-xl font-semibold transition-all shadow-lg shadow-[#261ce6]/20 active:scale-95" do %>
+          <%= link_to course_path(course), data: { testid: "manage-course-btn" }, class: "flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-[#261ce6] hover:bg-[#1a14a3] text-white rounded-xl font-semibold transition-all shadow-lg shadow-[#261ce6]/20 active:scale-95" do %>
             <%= image_tag "backoffice/setting-icon.svg", class: "w-6 h-6" %>
             <span>Manage</span>
           <% end %>

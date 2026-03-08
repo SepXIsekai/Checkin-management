@@ -10,28 +10,31 @@
   </head>
   <body class="min-h-screen flex items-center justify-center bg-[#f8fafc] p-10"
         data-controller="qr-refresh"
-        data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>">
-    <div class="bg-white shadow-xl rounded-3xl px-16 py-12 text-center max-w-4xl w-full">
-      <h1 class="text-3xl font-bold tracking-tight text-slate-900 mb-3">
+        data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>"
+        data-testid="fullscreen-body">
+    <div class="bg-white shadow-xl rounded-3xl px-16 py-12 text-center max-w-4xl w-full" data-testid="fullscreen-container">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 mb-3" data-testid="course-code">
         <%= @course.code %>
       </h1>
-      <h2 class="text-2xl text-slate-600 mb-2">
+      <h2 class="text-2xl text-slate-600 mb-2" data-testid="course-name">
         <%= @course.name %>
       </h2>
-      <p class="text-lg text-slate-500 mb-10">
+      <p class="text-lg text-slate-500 mb-10" data-testid="form-title">
         <%= @checkin_form.title %>
       </p>
       <div class="mb-10 flex justify-center"
-           data-qr-refresh-target="qrcode">
+           data-qr-refresh-target="qrcode"
+           data-testid="fullscreen-qr-code">
         <div class="w-[420px] max-w-full">
           <%= @checkin_form.qr_code_svg(@host).html_safe %>
         </div>
       </div>
-      <p class="text-xl font-medium text-slate-700 mb-4">
+      <p class="text-xl font-medium text-slate-700 mb-4" data-testid="scan-instruction">
         สแกน QR เพื่อเช็คชื่อเข้าเรียน
       </p>
       <p class="text-sm text-slate-400 break-all"
-         data-qr-refresh-target="url">
+         data-qr-refresh-target="url"
+         data-testid="fullscreen-url">
         <%= @checkin_form.checkin_url(@host) %>
       </p>
     </div>

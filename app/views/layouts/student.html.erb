@@ -13,17 +13,18 @@
   </head>
   <body class="bg-[#f8fafc] min-h-screen">
     <%= render "shared/flash" %>
-    <header class="bg-white border-b border-slate-200 px-8 py-4">
+    <header class="bg-white border-b border-slate-200 px-8 py-4" data-testid="student-header">
       <div class="flex justify-between items-center mx-auto">
         <div>
-          <h1 class="text-xl font-bold">Student Portal</h1>
-          <p class="text-sm text-slate-400"><%= current_user.name %> (<%= current_user.student_id %>)</p>
+          <h1 class="text-xl font-bold" data-testid="portal-title">Student Portal</h1>
+          <p class="text-sm text-slate-400" data-testid="student-info"><%= current_user.name %> (<%= current_user.student_id %>)</p>
         </div>
         <%= button_to "Logout", destroy_user_session_path, method: :delete, 
+            data: { testid: "logout-btn" },
             class: "px-4 py-2 bg-[#261ce6] hover:bg-[#1a14a3] text-white text-sm font-semibold rounded-lg transition cursor-pointer" %>
       </div>
     </header>
-    <main class="">
+    <main class="" data-testid="main-content">
       <%= yield %>
     </main>
   </body>

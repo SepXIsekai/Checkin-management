@@ -1,4 +1,4 @@
-<div class="fixed top-4 right-4 z-50 space-y-2">
+<div class="fixed top-4 right-4 z-50 space-y-2" data-testid="flash-messages">
   <% flash.each do |type, message| %>
     <% next if message.blank? %>
     <% bg_color = case type.to_sym
@@ -6,11 +6,12 @@
                   when :alert, :error then "bg-red-500"
                   else "bg-blue-500"
                   end %>
-    <div data-controller="flash" 
+    <div data-controller="flash"
+         data-testid="flash-message-<%= type %>" 
          class="<%= bg_color %> text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300">
       <span><%= type.to_sym == :notice ? "✓" : "!" %></span>
-      <span><%= message %></span>
-      <button data-action="click->flash#dismiss" class="ml-2 hover:opacity-70">✕</button>
+      <span data-testid="flash-message-text"><%= message %></span>
+      <button data-action="click->flash#dismiss" data-testid="flash-dismiss-btn" class="ml-2 hover:opacity-70">✕</button>
     </div>
   <% end %>
 </div>

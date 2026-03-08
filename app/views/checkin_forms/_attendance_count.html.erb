@@ -1,7 +1,7 @@
 <!-- app/views/checkin_forms/_attendance_count.html.erb -->
-<div class="text-sm">
+<div class="text-sm" data-testid="attendance-count">
   <span class="font-medium text-slate-500">Checked-in:</span>
-  <span class="font-bold text-[#261ce6] text-base">
+  <span class="font-bold text-[#261ce6] text-base" data-testid="count-value">
     <%= checkin_form.attendances.count %> students
   </span>
 </div>

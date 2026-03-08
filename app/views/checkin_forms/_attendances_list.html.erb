@@ -1,25 +1,25 @@
 <!-- app/views/checkin_forms/_attendances_list.html.erb -->
 <% if checkin_form.attendances.any? %>
-  <div class="flex-1 overflow-y-auto space-y-3 py-4 pr-2 min-h-0">
+  <div class="flex-1 overflow-y-auto space-y-3 py-4 pr-2 min-h-0" data-testid="attendances-list">
     <% checkin_form.attendances.order(checked_at: :desc).each do |attendance| %>
-      <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm hover:shadow-md transition">
-        <div class="size-10 rounded-full bg-[#261ce6] flex items-center justify-center text-xs font-bold text-white">
+      <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm hover:shadow-md transition" data-testid="attendance-item-#{attendance.id}">
+        <div class="size-10 rounded-full bg-[#261ce6] flex items-center justify-center text-xs font-bold text-white" data-testid="student-avatar">
           <%= attendance.name.to_s.first(2).upcase %>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-base font-bold text-slate-800 truncate">
+          <p class="text-base font-bold text-slate-800 truncate" data-testid="student-name">
             <%= attendance.name %>
           </p>
-          <p class="text-[10px] text-slate-400 font-bold uppercase">
+          <p class="text-[10px] text-slate-400 font-bold uppercase" data-testid="checkin-time">
             On-Time • <%= time_ago_in_words(attendance.checked_at) %> ago
           </p>
         </div>
-        <%= image_tag "backoffice/check-circle-green-icon.svg", class: "w-7 h-7" %>
+        <%= image_tag "backoffice/check-circle-green-icon.svg", class: "w-7 h-7", data: { testid: "check-icon" } %>
       </div>
     <% end %>
   </div>
 <% else %>
-  <div class="flex-1 flex items-center justify-center text-slate-400">
+  <div class="flex-1 flex items-center justify-center text-slate-400" data-testid="empty-attendances">
     No students checked in yet
   </div>
 <% end %>

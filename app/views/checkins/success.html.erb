@@ -1,34 +1,36 @@
 <!-- app/views/checkins/success.html.erb -->
-<div class="flex justify-center pt-16 px-4 bg-[#f8fafc]">
-  <div class="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 text-center">
+<div class="flex justify-center pt-16 px-4 bg-[#f8fafc]" data-testid="success-page">
+  <div class="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 text-center" data-testid="success-container">
     <div class="flex justify-center mb-5">
-      <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
+      <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center" data-testid="success-icon">
         <span class="text-green-600 text-2xl">✓</span>
       </div>
     </div>
-    <h1 class="text-xl font-semibold text-slate-900 mb-2">
+    <h1 class="text-xl font-semibold text-slate-900 mb-2" data-testid="success-title">
       Check-in Successful
     </h1>
-    <p class="text-slate-500 text-sm">
+    <p class="text-slate-500 text-sm" data-testid="course-info">
       <span class="font-medium"><%= @course.code %></span><br>
       <%= @course.name %>
     </p>
-    <p class="text-slate-500 text-sm mb-6">
+    <p class="text-slate-500 text-sm mb-6" data-testid="form-title">
       <%= @checkin_form.title %>
     </p>
     <% if @attendance.photo.attached? %>
-      <div class="mb-6">
+      <div class="mb-6" data-testid="photo-preview">
         <%= image_tag @attendance.photo,
+          data: { testid: "uploaded-photo" },
           class: "w-24 h-24 object-cover rounded-full mx-auto ring-4 ring-green-100" %>
       </div>
     <% end %>
-    <div class="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 mb-6 text-left space-y-1">
-      <p><span class="font-medium">Student ID:</span> <%= @attendance.student_id %></p>
-      <p><span class="font-medium">Name:</span> <%= @attendance.name %></p>
-      <p><span class="font-medium">Time:</span> <%= l(@attendance.checked_at, format: :long) %></p>
+    <div class="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 mb-6 text-left space-y-1" data-testid="attendance-details">
+      <p data-testid="student-id"><span class="font-medium">Student ID:</span> <%= @attendance.student_id %></p>
+      <p data-testid="student-name"><span class="font-medium">Name:</span> <%= @attendance.name %></p>
+      <p data-testid="checked-at"><span class="font-medium">Time:</span> <%= l(@attendance.checked_at, format: :long) %></p>
     </div>
     <%= link_to "Back to Home",
       student_dashboard_path,
+      data: { testid: "back-to-home-btn" },
       class: "w-full inline-flex items-center justify-center bg-[#261ce6] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#1a14a3] transition active:scale-[0.98]" %>
   </div>
 </div>

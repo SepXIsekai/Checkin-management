@@ -1,13 +1,13 @@
 <!-- app/views/checkin_forms/show.html.erb -->
-<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md" data-testid="checkin-form-show-header">
   <div class="flex flex-col items-start">
-    <h1 class="text-xl font-bold"><%= @checkin_form.title %></h1>
-    <p class="text-sm text-gray-400 font-medium"><%= @course.name %> • <%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+    <h1 class="text-xl font-bold" data-testid="form-title"><%= @checkin_form.title %></h1>
+    <p class="text-sm text-gray-400 font-medium" data-testid="course-info"><%= @course.name %> • <%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
   </div>
   <div class="flex gap-3">
     <% is_open = @checkin_form.open? %>
     <div class="flex items-center gap-2 px-4 py-2 rounded-full border
-    <%= is_open ? 'bg-green-50 border-green-100' : 'bg-slate-50 border-slate-200' %>">
+    <%= is_open ? 'bg-green-50 border-green-100' : 'bg-slate-50 border-slate-200' %>" data-testid="status-badge">
       <span class="relative flex h-2.5 w-2.5">
         <% if is_open %>
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -17,13 +17,13 @@
         <% end %>
       </span>
       <span class="px-3 py-1 text-sm font-bold
-        <%= is_open ? 'text-green-800' : 'text-slate-700' %>">
+        <%= is_open ? 'text-green-800' : 'text-slate-700' %>" data-testid="status-text">
         <%= is_open ? "Open" : "Closed" %>
       </span>
     </div>
     <% is_online = @checkin_form.online? %>
     <div class="flex items-center gap-2 px-4 py-2 rounded-full border
-    <%= is_online ? 'bg-blue-50 border-blue-100' : 'bg-orange-50 border-orange-100' %>">
+    <%= is_online ? 'bg-blue-50 border-blue-100' : 'bg-orange-50 border-orange-100' %>" data-testid="mode-badge">
       <span class="relative flex h-2.5 w-2.5">
         <% if is_online %>
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -34,7 +34,7 @@
         <% end %>
       </span>
       <span class="px-3 py-1 text-sm font-bold
-    <%= is_online ? 'text-blue-800' : 'text-orange-800' %>">
+    <%= is_online ? 'text-blue-800' : 'text-orange-800' %>" data-testid="mode-text">
         <% if is_online %>
           Online
         <% else %>
@@ -48,56 +48,61 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
     <div class="bg-white rounded-2xl shadow p-12 flex flex-col justify-center"
      data-controller="qr-refresh"
-     data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>">
+     data-qr-refresh-url-value="<%= qr_code_course_checkin_form_path(@course, @checkin_form) %>"
+     data-testid="qr-code-section">
       <div class="flex justify-center mb-8"
-       data-qr-refresh-target="qrcode">
+       data-qr-refresh-target="qrcode"
+       data-testid="qr-code-image">
         <%= @checkin_form.qr_code_svg(@host).html_safe %>
       </div>
       <p class="text-sm text-slate-500 break-all text-center mb-6"
-     data-qr-refresh-target="url">
+     data-qr-refresh-target="url"
+     data-testid="checkin-url">
         <%= @checkin_form.checkin_url(@host) %>
       </p>
       <%= link_to "Full Screen",
       fullscreen_course_checkin_form_path(@course, @checkin_form),
       target: "_blank",
+      data: { testid: "fullscreen-btn" },
       class: "w-full flex items-center justify-center bg-[#261ce6] text-white py-3 rounded-xl hover:bg-[#1a14a3] transition font-semibold shadow-md hover:shadow-lg active:scale-[0.98]" %>
     </div>
     <div class="flex flex-col gap-6 h-full min-h-0">
-      <div class="bg-white rounded-2xl shadow p-6 space-y-4">
+      <div class="bg-white rounded-2xl shadow p-6 space-y-4" data-testid="summary-section">
         <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">Check-in Summary</h2>
+          <h2 class="text-lg font-semibold" data-testid="summary-title">Check-in Summary</h2>
         </div>
         <% if @checkin_form.onsite? %>
-          <div class="text-sm text-slate-600">
+          <div class="text-sm text-slate-600" data-testid="location-info">
             <span class="font-medium text-slate-500">Location:</span>
             <%= @checkin_form.latitude %>,
             <%= @checkin_form.longitude %>
           </div>
         <% end %>
         <!-- Turbo Frame สำหรับ count -->
-        <%= turbo_frame_tag "attendance_count" do %>
+        <%= turbo_frame_tag "attendance_count", data: { testid: "attendance-count-frame" } do %>
           <div class="text-sm">
             <span class="font-medium text-slate-500">Checked-in:</span>
-            <span class="font-bold text-[#261ce6] text-base">
+            <span class="font-bold text-[#261ce6] text-base" data-testid="attendance-count">
               <%= @checkin_form.attendances.count %> students
             </span>
           </div>
         <% end %>
-        <div class="pt-4 border-t border-slate-300 flex flex-wrap gap-3">
+        <div class="pt-4 border-t border-slate-300 flex flex-wrap gap-3" data-testid="action-buttons">
           <%= button_to @checkin_form.active? ? "Close" : "Open",
       toggle_course_checkin_form_path(@course, @checkin_form),
       method: :patch,
+      data: { testid: @checkin_form.active? ? "close-btn" : "open-btn" },
       class: @checkin_form.active? ?
         "bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition font-medium shadow-sm cursor-pointer" :
         "bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition font-medium shadow-sm cursor-pointer" %>
           <%= button_to "Delete",
       course_checkin_form_path(@course, @checkin_form),
       method: :delete,
-      data: { turbo_confirm: "ยืนยันการลบฟอร์มนี้ใช่ไหม?" },
+      data: { turbo_confirm: "ยืนยันการลบฟอร์มนี้ใช่ไหม?", testid: "delete-btn" },
       class: "bg-slate-200 text-slate-700 px-4 py-2 rounded-xl hover:bg-slate-300 transition font-medium cursor-pointer" %>
         </div>
       </div>
-      <div class="flex flex-col flex-1 min-h-0">
+      <div class="flex flex-col flex-1 min-h-0" data-testid="recent-checkins-section">
         <div class="flex items-center gap-2">
           <span class="relative flex h-3 w-3">
             <% if is_open %>
@@ -107,10 +112,10 @@
               <span class="relative inline-flex rounded-full h-3 w-3 bg-slate-400"></span>
             <% end %>
           </span>
-          <h2 class="text-lg font-semibold">Recent Check-ins</h2>
+          <h2 class="text-lg font-semibold" data-testid="recent-checkins-title">Recent Check-ins</h2>
         </div>
         <!-- Turbo Frame สำหรับ list -->
-        <%= turbo_frame_tag "attendances_list" do %>
+        <%= turbo_frame_tag "attendances_list", data: { testid: "attendances-list-frame" } do %>
           <%= render "checkin_forms/attendances_list", checkin_form: @checkin_form %>
         <% end %>
       </div>

@@ -1,25 +1,26 @@
-<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md">
+<div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur-md" data-testid="course-show-header">
   <div class="flex flex-col items-start">
-    <h1 class="text-xl font-bold"><%= @course.name %></h1>
-    <p class="text-sm text-gray-400 font-medium"><%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
+    <h1 class="text-xl font-bold" data-testid="course-name"><%= @course.name %></h1>
+    <p class="text-sm text-gray-400 font-medium" data-testid="course-info"><%= @course.code %> • Year <%= @course.year %> • Semester <%= @course.semester %></p>
   </div>
   <%= link_to new_course_checkin_form_path(@course),
+      data: { testid: "create-session-btn" },
       class: "flex items-center gap-2 text-white font-semibold py-3 px-4 rounded-xl bg-[#261ce6] hover:bg-[#1a14a3] transition-all duration-200 shadow-lg shadow-blue-500/20" do %>
     <%= image_tag "backoffice/add-icon-white.svg", class: "w-5 h-5" %>
     Create Session
   <% end %>
 </div>
 <div class="m-10">
-  <div class="bg-[#261ce6] rounded-3xl p-10 text-white shadow-xl shadow-[#261ce6]/20 relative overflow-hidden mb-8">
+  <div class="bg-[#261ce6] rounded-3xl p-10 text-white shadow-xl shadow-[#261ce6]/20 relative overflow-hidden mb-8" data-testid="course-summary-card">
     <div class="relative z-10 flex justify-between items-start">
       <div>
-        <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block mb-4">
+        <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block mb-4" data-testid="active-badge">
           Active Course
         </span>
-        <h1 class="text-3xl font-bold mb-1">
+        <h1 class="text-3xl font-bold mb-1" data-testid="summary-title">
           Course Summary
         </h1>
-        <p class="text-white/70">
+        <p class="text-white/70" data-testid="summary-description">
           Academic information for the selected semester.
         </p>
       </div>
@@ -27,9 +28,9 @@
         <%= image_tag "login-register-page/education-school.svg", class: "w-10 h-10 opacity-70" %>
       </span>
     </div>
-    <div class="flex flex-wrap gap-3 mt-4">
+    <div class="flex flex-wrap gap-3 mt-4" data-testid="teachers-list">
       <% @course.teachers.each do |teacher| %>
-        <span class="px-4 py-2 rounded-xl bg-white/20 text-white text-sm font-semibold">
+        <span class="px-4 py-2 rounded-xl bg-white/20 text-white text-sm font-semibold" data-testid="teacher-name">
           <%= teacher.name %>
         </span>
       <% end %>
@@ -39,14 +40,15 @@
   </div>
   <div class="flex justify-between items-baseline mb-4">
     <div class="flex items-center gap-2">
-      <div class="font-bold text-2xl text-black mb-1">
+      <div class="font-bold text-2xl text-black mb-1" data-testid="recent-sessions-title">
         Recent Sessions
       </div>
-      <div class="text-sm text-[#261ce6] bg-[#261ce6]/10 font-semibold p-3 rounded-2xl">
+      <div class="text-sm text-[#261ce6] bg-[#261ce6]/10 font-semibold p-3 rounded-2xl" data-testid="term-badge">
         Term <%= @course.semester %>
       </div>
     </div>
     <%= link_to course_checkin_forms_path(@course),
+    data: { testid: "view-history-btn" },
     class: "flex items-center text-[#261ce6] font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:bg-[#261ce6]/10 #{'bg-[#261ce6]/10 border-r-4 border-[#261ce6]' if controller_name == 'checkin_forms'}" do %>
       View History
     <% end %>
@@ -54,6 +56,7 @@
   <% if @checkin_forms.present? %>
     <% @checkin_forms.each do |form| %>
       <%= link_to course_checkin_form_path(@course, form),
+      data: { testid: "session-item-#{form.id}" },
       class: "block group mb-4" do %>
         <div class="flex items-center gap-6 bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-all cursor-pointer">
           <div class="text-[#261ce6] flex items-center justify-center rounded-2xl bg-[#261ce6]/10 p-3">
@@ -61,16 +64,16 @@
           </div>
           <div class="flex-1">
             <div class="flex justify-between items-center mb-1">
-              <p class="text-lg font-bold">
+              <p class="text-lg font-bold" data-testid="session-title">
                 <%= form.title %>
               </p>
               <% if form.open? %>
-                <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold uppercase">Open</span>
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold uppercase" data-testid="status-open">Open</span>
               <% else %>
-                <span class="bg-slate-100 text-slate-800 text-xs px-2 py-0.5 rounded-full font-bold uppercase">Closed</span>
+                <span class="bg-slate-100 text-slate-800 text-xs px-2 py-0.5 rounded-full font-bold uppercase" data-testid="status-closed">Closed</span>
               <% end %>
             </div>
-            <p class="text-gray-400 text-sm">
+            <p class="text-gray-400 text-sm" data-testid="session-date">
               <%= format_datetime(form.created_at) %>
             </p>
           </div>
@@ -80,16 +83,16 @@
       <% end %>
     <% end %>
   <% else %>
-    <div class="bg-white border border-slate-200 rounded-3xl p-12 text-center">
+    <div class="bg-white border border-slate-200 rounded-3xl p-12 text-center" data-testid="empty-sessions">
       <div class="flex justify-center mb-6">
         <div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-[#261ce6]/10 text-[#261ce6]">
           <%= image_tag "backoffice/event-busy.svg", class: "w-10 h-10" %>
         </div>
       </div>
-      <h3 class="text-lg font-bold text-[#111118] mb-2">
+      <h3 class="text-lg font-bold text-[#111118] mb-2" data-testid="empty-title">
         No Sessions Yet
       </h3>
-      <p class="text-sm text-gray-400 mb-6">
+      <p class="text-sm text-gray-400 mb-6" data-testid="empty-message">
         There are no check-in sessions created for this course.
       </p>
     </div>
