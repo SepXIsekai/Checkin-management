@@ -1,42 +1,42 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2 data-testid="edit-profile-title">Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: { testid: "edit-profile-form" } }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
+  <div class="field" data-testid="email-field">
     <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
+    <p><%= f.email_field :email, autofocus: true, autocomplete: "email", data: { testid: "email-input" } %></p>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div data-testid="pending-reconfirmation">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div class="field">
+  <div class="field" data-testid="password-field">
     <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
+    <p><%= f.password_field :password, autocomplete: "new-password", data: { testid: "password-input" } %></p>
     <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
+      <p data-testid="password-requirement"><em><%= @minimum_password_length %> characters minimum</em></p>
     <% end %>
   </div>
 
-  <div class="field">
+  <div class="field" data-testid="password-confirmation-field">
     <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+    <p><%= f.password_field :password_confirmation, autocomplete: "new-password", data: { testid: "password-confirmation-input" } %></p>
   </div>
 
-  <div class="field">
+  <div class="field" data-testid="current-password-field">
     <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
+    <p><%= f.password_field :current_password, autocomplete: "current-password", data: { testid: "current-password-input" } %></p>
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "Update", data: { testid: "update-profile-btn" } %>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3 data-testid="cancel-account-title">Cancel my account</h3>
 
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+<div data-testid="cancel-account-section">Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?", testid: "cancel-account-btn" }, method: :delete %></div>
 
-<%= link_to "Back", :back %>
+<%= link_to "Back", :back, data: { testid: "back-link" } %>

@@ -1,36 +1,39 @@
-<div class="flex items-center justify-center bg-[#f8fafc] px-4">
-  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-    <h2 class="text-xl font-semibold text-slate-900 text-center mb-6">
+<div class="flex items-center justify-center bg-[#f8fafc] px-4" data-testid="reset-password-page">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8" data-testid="reset-password-card">
+    <h2 class="text-xl font-semibold text-slate-900 text-center mb-6" data-testid="reset-password-title">
       Change Your Password
     </h2>
     <%= form_for(resource,
           as: resource_name,
           url: password_path(resource_name),
-          html: { method: :put }) do |f| %>
+          html: { method: :put, data: { testid: "reset-password-form" } }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <%= f.hidden_field :reset_password_token %>
-      <div class="mb-5">
+      <div class="mb-5" data-testid="new-password-field">
         <%= f.label :password, "New Password",
               class: "block text-sm font-medium text-slate-700 mb-2" %>
         <% if @minimum_password_length %>
-          <p class="text-xs text-slate-400 mb-2">
+          <p class="text-xs text-slate-400 mb-2" data-testid="password-requirement">
             Minimum <%= @minimum_password_length %> characters
           </p>
         <% end %>
         <%= f.password_field :password,
               autofocus: true,
               autocomplete: "new-password",
+              data: { testid: "new-password-input" },
               class: "w-full h-12 px-4 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#261ce6]" %>
       </div>
-      <div class="mb-6">
+      <div class="mb-6" data-testid="confirm-password-field">
         <%= f.label :password_confirmation, "Confirm New Password",
               class: "block text-sm font-medium text-slate-700 mb-2" %>
         <%= f.password_field :password_confirmation,
               autocomplete: "new-password",
+              data: { testid: "confirm-password-input" },
               class: "w-full h-12 px-4 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#261ce6]" %>
       </div>
       <div>
         <%= f.submit "Update Password",
+              data: { testid: "update-password-btn" },
               class: "w-full h-12 rounded-xl bg-[#261ce6] text-white font-medium transition hover:bg-[#1a14a3] active:scale-[0.98] cursor-pointer" %>
       </div>
     <% end %>

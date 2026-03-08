@@ -1,7 +1,7 @@
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center" data-testid="forgot-password-page">
   <div class="w-full max-w-md">
-    <div class="w-full flex flex-col gap-6 p-4 sm:p-6 md:bg-white md:rounded-2xl md:shadow-md md:border md:border-slate-200 md:p-8">
-      <div class="text-center">
+    <div class="w-full flex flex-col gap-6 p-4 sm:p-6 md:bg-white md:rounded-2xl md:shadow-md md:border md:border-slate-200 md:p-8" data-testid="forgot-password-card">
+      <div class="text-center" data-testid="forgot-password-header">
         <h2 class="text-2xl font-bold text-slate-800">
           Forgot your password?
         </h2>
@@ -9,9 +9,9 @@
           Enter your email and we’ll send reset instructions.
         </p>
       </div>
-      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, data: { testid: "forgot-password-form" } }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2" data-testid="email-field">
           <%= f.label :email, class: "text-slate-800 text-sm font-medium" %>
           <div class="relative">
             <%= image_tag "login-register-page/badge-grey.svg", class: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition" %>
@@ -19,11 +19,13 @@
               autofocus: true,
               autocomplete: "email",
               placeholder: "Enter Email",
+              data: { testid: "email-input" },
               class: "w-full rounded-lg border border-slate-300 bg-slate-50 h-11 sm:h-12 pl-10 pr-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#261ce6]/50 transition" %>
           </div>
         </div>
         <div class="mt-4">
           <%= button_tag type: "submit",
+              data: { testid: "send-reset-link-btn" },
               class: "group w-full bg-[#261ce6] hover:bg-[#1a14a3] text-white font-semibold py-3 sm:py-3.5 rounded-lg transition active:scale-[0.98] shadow-md flex items-center justify-center gap-2" do %>
             <span>Send Reset Link</span>
             <span class="group-hover:translate-x-1 transition-transform ">
@@ -33,9 +35,10 @@
           <% end %>
         </div>
       <% end %>
-      <div class="text-center text-sm">
+      <div class="text-center text-sm" data-testid="back-to-signin-link">
         <%= link_to "Back to Sign In",
             new_session_path(resource_name),
+            data: { testid: "back-to-signin-link" },
             class: "text-[#261ce6] font-semibold hover:underline" %>
       </div>
     </div>

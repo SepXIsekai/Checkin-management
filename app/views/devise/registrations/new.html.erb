@@ -1,37 +1,37 @@
-<div class="w-full flex flex-col gap-4">
+<div class="w-full flex flex-col gap-4" data-testid="registration-page">
   <% role = resource.role || params[:role] || 'student' %>
-  <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900">
+  <h1 class="font-bold tracking-tight text-center text-2xl sm:text-3xl md:text-4xl lg:text-4xl text-slate-900" data-testid="registration-title">
     <%= role == 'teacher' ? 'Teacher' : 'Student' %> Registration
   </h1>
-  <div class="pt-2 px-4">
+  <div class="pt-2 px-4" data-testid="registration-header">
     <h3 class="text-[#111118] tracking-light text-2xl font-bold leading-tight text-center max-sm:text-base">Create <%= role == 'teacher' ? 'Teacher' : 'Student' %> Account</h3>
     <p class="text-[#636388] text-base font-normal leading-normal pb-6 pt-2 px-4 text-center max-sm:text-xs">
       <%= role == 'teacher' ? 'Join the Checkin Management System to manage your courses and students.' : 'Join the Form to Check-in your class' %>
     </p>
   </div>
   <div class="w-full flex justify-center px-4">
-    <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white rounded-2xl shadow-lg sm:shadow-xl border border-slate-200 p-6 sm:p-8 md:p-10">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white rounded-2xl shadow-lg sm:shadow-xl border border-slate-200 p-6 sm:p-8 md:p-10" data-testid="registration-form-card">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { testid: "registration-form" } }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
         <%= f.hidden_field :role, value: role %>
         <% if role == 'teacher' %>
-          <%= form_input(f, :secret_code, label: "Teacher Code", placeholder: "Secret Code for Teacher Only") %>
+          <%= form_input(f, :secret_code, label: "Teacher Code", placeholder: "Secret Code for Teacher Only", input_html: { data: { testid: "teacher-code-input" } }) %>
         <% end %>
-        <%= form_input(f, :name, label: "Full Name", placeholder: "e.g. Dr. John Dee") %>
+        <%= form_input(f, :name, label: "Full Name", placeholder: "e.g. Dr. John Dee", input_html: { data: { testid: "name-input" } }) %>
         <% if role == 'student' %>
-          <%= form_input(f, :student_id, label: "Student ID", placeholder: "650710123") %>
+          <%= form_input(f, :student_id, label: "Student ID", placeholder: "650710123", input_html: { data: { testid: "student-id-input" } }) %>
         <% end %>
-        <%= form_input(f, :email, label: "Email", type: :email, placeholder: "example@university.ac.th") %>
-        <%= form_input(f, :password, label: "Password", type: :password, placeholder: "••••••••") %>
-        <%= form_input(f, :password_confirmation, label: "Confirm Password", type: :password, placeholder: "••••••••") %>
+        <%= form_input(f, :email, label: "Email", type: :email, placeholder: "example@university.ac.th", input_html: { data: { testid: "email-input" } }) %>
+        <%= form_input(f, :password, label: "Password", type: :password, placeholder: "••••••••", input_html: { data: { testid: "password-input" } }) %>
+        <%= form_input(f, :password_confirmation, label: "Confirm Password", type: :password, placeholder: "••••••••", input_html: { data: { testid: "password-confirmation-input" } }) %>
         <div data-controller="terms">
-          <div class="flex items-start gap-3 py-4 px-1">
+          <div class="flex items-start gap-3 py-4 px-1" data-testid="terms-checkbox-field">
             <input
       type="checkbox"
       class="mt-1 h-6 w-6 rounded border-gray-300 text-[#1e1ee6] focus:ring-[#1e1ee6] cursor-pointer"
       data-action="change->terms#toggle"
               data-terms-target="checkbox"
-              >
+              data-testid="terms-checkbox">
               <p class="text-sm text-[#636388] leading-tight">
                 I agree to the
                 <a class="text-[#1e1ee6] font-medium underline">Terms of Service</a>
@@ -43,17 +43,17 @@
             <div class="pt-6">
               <%= f.submit "Create Account",
       disabled: true,
-      data: { terms_target: "submit" },
+      data: { terms_target: "submit", testid: "create-account-btn" },
       class: "w-full h-12 sm:h-14 rounded-xl bg-[#261ce6] text-white font-semibold text-sm sm:text-base
               transition active:scale-[0.98]
               disabled:opacity-40 disabled:cursor-not-allowed
               enabled:hover:bg-[#1a14a3]/90 enabled:cursor-pointer" %>
             </div>
           </div>
-          <div class="pt-6 text-center">
+          <div class="pt-6 text-center" data-testid="login-link">
             <p class="text-[#636388] dark:text-gray-400 text-medium max-sm:text-sm">
               Already have an account?
-              <%= link_to "Log in", new_user_session_path, class: "text-[#1e1ee6] font-bold hover:underline" %>
+              <%= link_to "Log in", new_user_session_path, data: { testid: "login-link" }, class: "text-[#1e1ee6] font-bold hover:underline" %>
             </p>
           </div>
         <% end %>
