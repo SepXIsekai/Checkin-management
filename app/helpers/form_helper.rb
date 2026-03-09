@@ -1,5 +1,5 @@
 module FormHelper
-  def form_input(f, field, label:, type: :text, placeholder: nil, input_html: {}, wrapper_html: {}, label_html: {})
+  def form_input(f, field, label:, type: :text, placeholder: nil, input_html: {}, wrapper_html: {}, label_html: {}, data_testid: nil, **_extra_kwargs)
     wrapper_options = merge_html_options({ class: "w-full py-2" }, wrapper_html)
     label_options = merge_html_options({ class: "pb-2 px-1 text-base max-sm:text-sm font-medium text-[#111118]" }, label_html)
 
@@ -16,6 +16,10 @@ module FormHelper
           class: input_classes,
           data: { testid: "#{field.to_s.tr('_', '-')}-input" }
         }
+        input_html = (input_html || {}).dup
+        if data_testid.present?
+          input_html[:data] = (input_html[:data] || {}).merge(testid: data_testid)
+        end
         input_options = merge_html_options(default_input_options, input_html)
 
         concat f.send("#{type}_field", field,
@@ -28,7 +32,7 @@ module FormHelper
     end
   end
 
-  def form_select(f, field, label:, options:, select_html: {}, wrapper_html: {}, label_html: {}, options_html: {})
+  def form_select(f, field, label:, options:, select_html: {}, wrapper_html: {}, label_html: {}, options_html: {}, data_testid: nil, **_extra_kwargs)
     wrapper_options = merge_html_options({ class: "w-full py-2" }, wrapper_html)
     label_options = merge_html_options({ class: "pb-2 px-1 text-sm font-medium text-[#111118]" }, label_html)
 
@@ -44,6 +48,10 @@ module FormHelper
           class: select_classes,
           data: { testid: "#{field.to_s.tr('_', '-')}-select" }
         }
+        select_html = (select_html || {}).dup
+        if data_testid.present?
+          select_html[:data] = (select_html[:data] || {}).merge(testid: data_testid)
+        end
         merged_select_options = merge_html_options(default_select_options, select_html)
 
         concat f.select field, options, options_html,
@@ -56,13 +64,17 @@ module FormHelper
     end
   end
 
-  def form_radio_group(f, field, label:, options:, checked: nil, data_action: nil, wrapper_html: {}, label_html: {}, group_html: {}, radio_html: {}, card_html: {})
+  def form_radio_group(f, field, label:, options:, checked: nil, data_action: nil, wrapper_html: {}, label_html: {}, group_html: {}, radio_html: {}, card_html: {}, data_testid: nil, **_extra_kwargs)
     wrapper_options = merge_html_options({ class: "w-full py-2" }, wrapper_html)
     label_options = merge_html_options({ class: "pb-2 px-1 text-base max-sm:text-sm font-medium text-[#111118] block" }, label_html)
     default_group_options = {
       class: "grid grid-cols-2 gap-4",
       data: { testid: "#{field.to_s.tr('_', '-')}-radio-group" }
     }
+    group_html = (group_html || {}).dup
+    if data_testid.present?
+      group_html[:data] = (group_html[:data] || {}).merge(testid: data_testid)
+    end
     group_options = merge_html_options(default_group_options, group_html)
 
     content_tag(:div, **wrapper_options) do
