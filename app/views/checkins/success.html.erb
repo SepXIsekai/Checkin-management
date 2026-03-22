@@ -18,7 +18,7 @@
     </p>
     <% if @attendance.photo.attached? %>
       <div class="mb-6" data-testid="photo-preview">
-        <%= image_tag rails_blob_url(@attendance.photo, disposition: "inline"),
+        <%= image_tag cloudinary_url(@attendance.photo),
       data: { testid: "uploaded-photo" },
       class: "w-24 h-24 object-cover rounded-full mx-auto ring-4 ring-green-100" %>
       </div>
