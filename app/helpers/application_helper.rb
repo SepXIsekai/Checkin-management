@@ -12,6 +12,10 @@ module ApplicationHelper
   def cloudinary_image_url(attachment)
     return nil unless attachment.attached?
 
-    "https://res.cloudinary.com/#{ENV['CLOUDINARY_CLOUD_NAME']}/image/upload/#{attachment.blob.key}"
+    if Rails.env.production?
+      "https://res.cloudinary.com/#{ENV['CLOUDINARY_CLOUD_NAME']}/image/upload/#{attachment.blob.key}"
+    else
+      url_for(attachment)
+    end
   end
 end
