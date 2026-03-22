@@ -8,4 +8,10 @@ module ApplicationHelper
     return "-" if date.blank?
     date.strftime("%d %B %Y")
   end
+
+  def cloudinary_image_url(attachment)
+    return nil unless attachment.attached?
+
+    "https://res.cloudinary.com/#{ENV['CLOUDINARY_CLOUD_NAME']}/image/upload/#{attachment.blob.key}"
+  end
 end
