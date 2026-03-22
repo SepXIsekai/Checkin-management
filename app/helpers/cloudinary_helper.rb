@@ -4,9 +4,10 @@ module CloudinaryHelper
     return nil unless attachment.attached?
 
     if Rails.env.production?
-      "https://res.cloudinary.com/#{ENV['CLOUDINARY_CLOUD_NAME']}/image/upload/#{attachment.key}"
+      cloud_name = ENV["CLOUDINARY_CLOUD_NAME"]
+      "https://res.cloudinary.com/#{cloud_name}/image/upload/#{attachment.blob.key}"
     else
-      rails_blob_url(attachment, disposition: "inline")
+      url_for(attachment)
     end
   end
 end
