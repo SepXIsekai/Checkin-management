@@ -79,3 +79,4 @@ gem "caxlsx"
 gem "caxlsx_rails"
 
 gem "cloudinary"
+gem "activestorage-cloudinary-service"

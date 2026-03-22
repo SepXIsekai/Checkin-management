@@ -59,6 +59,7 @@ GEM
       activerecord (= 8.0.4)
       activesupport (= 8.0.4)
       marcel (~> 1.0)
+    activestorage-cloudinary-service (0.2.3)
     activesupport (8.0.4)
       base64
       benchmark (>= 0.3)
@@ -423,6 +424,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  activestorage-cloudinary-service
   bootsnap
   brakeman
   capybara
